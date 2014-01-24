@@ -39,5 +39,11 @@ namespace _16ColorsPuzzle
             return null;
         }
 
+        static Tuple<int, int> FoldArrayToMatrix(int IN_position_in_array, int IN_length_of_a_row)
+        {
+            int row_number = IN_position_in_array / IN_length_of_a_row;
+            int column_number = IN_position_in_array % IN_length_of_a_row;
+            return Tuple.Create<int, int>(item1 : row_number, item2 : column_number);
+        }
     }
 }
