@@ -39,11 +39,12 @@ namespace _16ColorsPuzzle
             return null;
         }
 
-        static Tuple<int, int> ConvertIndexOfArrayToIndexOfMatrix(int IN_position_in_array, int IN_length_of_a_row)
+        static Tuple<int, int, char> ConvertIndexOfArrayToPositionOfBoard(int IN_position_in_array, int IN_length_of_a_row)
         {
             int row_number = IN_position_in_array / IN_length_of_a_row;
             int column_number = IN_position_in_array % IN_length_of_a_row;
-            return Tuple.Create<int, int>(item1 : row_number, item2 : column_number);
+            char position_representing_char = (char)(IN_position_in_array + 0x0041);
+            return Tuple.Create<int, int, char>(item1 : row_number, item2 : column_number, item3 : position_representing_char);
         }
     }
 }
