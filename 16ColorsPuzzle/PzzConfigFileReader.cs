@@ -15,7 +15,14 @@ namespace _16ColorsPuzzle
 
         public PzzConfigFileReader()
         {
+            //hardcoded defined colors. It should be done better.
             this.dict_string_color.Add("r", Color.Red);
+            this.dict_string_color.Add("b", Color.Blue);
+            this.dict_string_color.Add("w", Color.White);
+            this.dict_string_color.Add("y", Color.Yellow);
+            this.dict_string_color.Add("g", Color.Green);
+            this.dict_string_color.Add("p", Color.Pink);
+            this.dict_string_color.Add("e", Color.Transparent);
         }
 
         static string[] ReadAsArray(string filename)
