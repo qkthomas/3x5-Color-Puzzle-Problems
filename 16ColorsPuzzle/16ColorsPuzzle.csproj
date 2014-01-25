@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chip.cs" />
+    <Compile Include="ChipsList.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
