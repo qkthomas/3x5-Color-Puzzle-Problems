@@ -1,19 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace _16ColorsPuzzle
 {
-    class ChipsList : List<Chip>
+    class ChipsList : IEnumerable
     {
-        public void SwapTwoChips(int index1, int index2)
+        private List<Chip> mChipsList = new List<Chip>();
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            Chip chip_at_index1 = base[index1];
-            Chip chip_at_index2 = base[index2];
-            base[index1] = chip_at_index2;
-            base[index2] = chip_at_index1;
+            return this.mChipsList.GetEnumerator();
+        }
+
+        public void Add(Chip c)
+        {
+            this.mChipsList.Add(c);
+        }
+
+        public int Count
+        {
+            get { return this.mChipsList.Count; }
+        }
+
+        public Chip this[int index]
+        {
+            get { return this.mChipsList[index]; }
+            set { this.mChipsList[index] = value; }
         }
     }
 }

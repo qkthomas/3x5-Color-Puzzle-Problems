@@ -12,14 +12,20 @@ namespace _16ColorsPuzzle
 {
     public partial class Form1 : Form
     {
-        Form_Debug fd;
-        ChipsList cplst;
+        private Form_Debug fd;
+        private Controller mController;
         public Form1()
         {
             InitializeComponent();
             this.fd = new Form_Debug();
             fd.Show();
-            cplst = new ChipsList();
+            this.mController = new Controller();
+            this.panel1.Paint += this.drawChipsConfiguration;
+        }
+
+        private void drawChipsConfiguration(object sender, PaintEventArgs e)
+        {
+            this.mController.DrawConfiguration(e.Graphics, this.panel1.Size);
         }
 
         private void openConfigurationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -36,14 +42,8 @@ namespace _16ColorsPuzzle
             }
             #endregion
 
-            string[] inputed_str = PzzConfigFileReader.ReadAsArray(ofd.FileName);
-            this.cplst = PzzConfigFileReader.BuildChipsConfiguration(Tuple.Create<int, int>(3, 5), inputed_str);
-
-            foreach(var cp in cplst)
-            {
-                cp.DrawMyself(this.panel1);
-            }
-
+            this.mController.ReadConfiguration(ofd.FileName);
+            this.panel1.Refresh();
         }
     }
 }
