@@ -19,7 +19,7 @@ namespace _16ColorsPuzzle
             InitializeComponent();
             this.fd = new Form_Debug();
             fd.Show();
-            this.mController = new Controller();
+            this.mController = new Controller(Tuple.Create<int, int>(3, 5));    //the board is set 3 by 5
             this.panel1.Paint += this.drawChipsConfiguration;
         }
 
@@ -43,6 +43,31 @@ namespace _16ColorsPuzzle
             #endregion
 
             this.mController.ReadConfiguration(ofd.FileName);
+            this.panel1.Refresh();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Up)
+            {
+                this.mController.MoveEmptySpaceUp();
+            }
+            else if(e.KeyCode == Keys.Down)
+            {
+                this.mController.MoveEmptySpaceDown();
+            }
+            else if(e.KeyCode == Keys.Left)
+            {
+                this.mController.MoveEmptySpaceLeft();
+            }
+            else if (e.KeyCode == Keys.Right)
+            {
+                this.mController.MoveEmptySpaceRight();
+            }
+            else
+            {
+                //do nothing
+            }
             this.panel1.Refresh();
         }
     }
