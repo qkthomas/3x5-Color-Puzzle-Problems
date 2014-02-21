@@ -48,28 +48,41 @@ namespace _16ColorsPuzzle
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Up)
+            bool goal = false;
+            if (false == goal)
             {
-                //we visually want to move the non-empty tile
-                this.mController.MoveEmptySpaceDown();
-            }
-            else if(e.KeyCode == Keys.Down)
-            {
-                this.mController.MoveEmptySpaceUp();
-            }
-            else if(e.KeyCode == Keys.Left)
-            {
-                this.mController.MoveEmptySpaceRight();
-            }
-            else if (e.KeyCode == Keys.Right)
-            {
-                this.mController.MoveEmptySpaceLeft();
+                if (e.KeyCode == Keys.Up)
+                {
+                    //we visually want to move the non-empty tile
+                    this.mController.MoveEmptySpaceDown();
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    this.mController.MoveEmptySpaceUp();
+                }
+                else if (e.KeyCode == Keys.Left)
+                {
+                    this.mController.MoveEmptySpaceRight();
+                }
+                else if (e.KeyCode == Keys.Right)
+                {
+                    this.mController.MoveEmptySpaceLeft();
+                }
+                else
+                {
+                    //do nothing
+                }
+                goal = this.mController.ReachGoal();
+                if(true == goal)
+                {
+                    this.mController.PrintLogger();
+                }
+                this.panel1.Refresh();
             }
             else
             {
-                //do nothing
+                this.mController.PrintLogger();
             }
-            this.panel1.Refresh();
         }
     }
 }
