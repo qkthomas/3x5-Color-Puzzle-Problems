@@ -31,6 +31,11 @@ namespace _16ColorsPuzzle
                 return false;
             }
 
+            if (a.mChipColor.ToKnownColor() == b.mChipColor.ToKnownColor())
+            {
+                return true;
+            }
+
             // Return true if the fields match:
             return (a.mChipColor == b.mChipColor);
         }
