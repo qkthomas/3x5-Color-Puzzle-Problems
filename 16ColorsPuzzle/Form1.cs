@@ -50,19 +50,20 @@ namespace _16ColorsPuzzle
         {
             if(e.KeyCode == Keys.Up)
             {
-                this.mController.MoveEmptySpaceUp();
+                //we visually want to move the non-empty tile
+                this.mController.MoveEmptySpaceDown();
             }
             else if(e.KeyCode == Keys.Down)
             {
-                this.mController.MoveEmptySpaceDown();
+                this.mController.MoveEmptySpaceUp();
             }
             else if(e.KeyCode == Keys.Left)
             {
-                this.mController.MoveEmptySpaceLeft();
+                this.mController.MoveEmptySpaceRight();
             }
             else if (e.KeyCode == Keys.Right)
             {
-                this.mController.MoveEmptySpaceRight();
+                this.mController.MoveEmptySpaceLeft();
             }
             else
             {
