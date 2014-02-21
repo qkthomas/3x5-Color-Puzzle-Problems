@@ -50,13 +50,10 @@ namespace _16ColorsPuzzle
         {
             ChipsList cplst = new ChipsList();
             List<string> strlst = IN_inputed_str_array.OfType<string>().ToList();
-            int index = 0;
             foreach (var str in IN_inputed_str_array)
             {
                 Color color = dict_string_color[str];
-                Tuple<int, char> chip_position = Tuple.Create<int, char>(index, ConvertIndexOfArrayToPositionOfBoard(index));
-                cplst.Add(new Chip(color, chip_position, IN_row_column_config));
-                index++;
+                cplst.Add(new Chip(color));
             }
             return cplst;
         }
