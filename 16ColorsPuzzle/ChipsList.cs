@@ -17,6 +17,11 @@ namespace _16ColorsPuzzle
             return this.mChipsList.GetEnumerator();
         }
 
+        public void Clear()
+        {
+            this.mChipsList.Clear();
+        }
+
         public void Add(Chip c)
         {
             this.mChipsList.Add(c);
