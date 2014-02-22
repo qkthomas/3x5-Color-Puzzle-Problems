@@ -14,6 +14,7 @@ namespace _16ColorsPuzzle
         private ChipsList mChipsList;
         private int mCurrentEmptySpaceIndex;
         private Logger mLogger = new Logger();
+        private bool mGoal = false;
 
         enum Directions { up, down, left, right };
 
@@ -47,13 +48,13 @@ namespace _16ColorsPuzzle
                 {
                     if (0 == this.mLogStartPosition % this.mNewLineEveryNRecord)
                     {
-                        sb.Append(number_step.ToString() + ") ");
+                        sb.Append(number_step.ToString() + ")\t");
                         sb.Append(c.ToString());
                         sb.AppendLine(", ");
                     }
                     else
                     {
-                        sb.Append(number_step.ToString() + ") ");
+                        sb.Append(number_step.ToString() + ")\t");
                         sb.Append(c.ToString());
                         sb.Append(", ");
                     }
@@ -65,10 +66,23 @@ namespace _16ColorsPuzzle
             }
         }
 
+        public bool Goal
+        {
+            get { return this.mGoal; }
+        }
+
         public Controller(Tuple<int, int> row_column_config)
         {
             this.mRowColumnConfig = row_column_config;
             this.mChipsList = new ChipsList();
+        }
+
+        public void Reset()
+        {
+            this.mChipsList.Clear();
+            this.mGoal = false;
+            this.mLogger = new Logger();
+            this.mCurrentEmptySpaceIndex = -1;  //for debug.
         }
 
         public void PrintLogger()
@@ -86,6 +100,7 @@ namespace _16ColorsPuzzle
                 this.SwapTwoChips(this.mCurrentEmptySpaceIndex, dest_swapping_index);
                 this.mCurrentEmptySpaceIndex = dest_swapping_index;
                 this.mLogger.AddMove(this.mCurrentEmptySpaceIndex);
+                this.ReachGoal();
             }
         }
 
@@ -98,6 +113,7 @@ namespace _16ColorsPuzzle
                 this.SwapTwoChips(this.mCurrentEmptySpaceIndex, dest_swapping_index);
                 this.mCurrentEmptySpaceIndex = dest_swapping_index;
                 this.mLogger.AddMove(this.mCurrentEmptySpaceIndex);
+                this.ReachGoal();
             }
         }
 
@@ -110,6 +126,7 @@ namespace _16ColorsPuzzle
                 this.SwapTwoChips(this.mCurrentEmptySpaceIndex, dest_swapping_index);
                 this.mCurrentEmptySpaceIndex = dest_swapping_index;
                 this.mLogger.AddMove(this.mCurrentEmptySpaceIndex);
+                this.ReachGoal();
             }
         }
 
@@ -122,6 +139,7 @@ namespace _16ColorsPuzzle
                 this.SwapTwoChips(this.mCurrentEmptySpaceIndex, dest_swapping_index);
                 this.mCurrentEmptySpaceIndex = dest_swapping_index;
                 this.mLogger.AddMove(this.mCurrentEmptySpaceIndex);
+                this.ReachGoal();
             }
         }
 
@@ -179,10 +197,12 @@ namespace _16ColorsPuzzle
             {
                 if(this.mChipsList[i] != this.mChipsList[i+offset_first_row_last_row])
                 {
-                    return false;
+                    this.mGoal = false;
+                    return this.mGoal;
                 }
             }
-            return true;
+            this.mGoal = true;
+            return this.mGoal;
         }
     }
 }
