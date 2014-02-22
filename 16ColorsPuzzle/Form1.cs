@@ -42,6 +42,7 @@ namespace _16ColorsPuzzle
             }
             #endregion
 
+            this.mController = new Controller(Tuple.Create<int, int>(3, 5));    //the board is set 3 by 5
             this.mController.ReadConfiguration(ofd.FileName);
             this.panel1.Refresh();
         }
@@ -77,7 +78,6 @@ namespace _16ColorsPuzzle
                     MessageBox.Show("Reach goal state. Reset the game");
                     this.mController.PrintLogger();
                     this.mController.Reset();
-                    this.panel1.Refresh();      //this is for display the reset board.
                 }
                 else
                 {
@@ -93,6 +93,12 @@ namespace _16ColorsPuzzle
         private void Reset()
         {
             this.mController.Reset();
+            this.panel1.Refresh();      //this is for display the reset board.
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Reset();
         }
     }
 }
