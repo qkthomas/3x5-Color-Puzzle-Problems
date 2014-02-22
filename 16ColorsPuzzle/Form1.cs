@@ -48,8 +48,7 @@ namespace _16ColorsPuzzle
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            bool goal = false;
-            if (false == goal)
+            if (false == this.mController.Goal)
             {
                 if (e.KeyCode == Keys.Up)
                 {
@@ -72,17 +71,28 @@ namespace _16ColorsPuzzle
                 {
                     //do nothing
                 }
-                goal = this.mController.ReachGoal();
-                if(true == goal)
+                if (true == this.mController.Goal)
                 {
+                    this.panel1.Refresh();      //this is for display the goaled board.
+                    MessageBox.Show("Reach goal state. Reset the game");
                     this.mController.PrintLogger();
+                    this.mController.Reset();
+                    this.panel1.Refresh();      //this is for display the reset board.
                 }
-                this.panel1.Refresh();
+                else
+                {
+                    this.panel1.Refresh();
+                }
             }
             else
             {
-                this.mController.PrintLogger();
+                //do nothing
             }
+        }
+
+        private void Reset()
+        {
+            this.mController.Reset();
         }
     }
 }
