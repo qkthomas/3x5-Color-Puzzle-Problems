@@ -49,7 +49,7 @@ namespace _16ColorsPuzzle
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (false == this.mController.Goal)
+            if (false == this.mController.Goal && true == this.mController.isReady())
             {
                 if (e.KeyCode == Keys.Up)
                 {

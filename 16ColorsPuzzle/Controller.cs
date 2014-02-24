@@ -204,5 +204,17 @@ namespace _16ColorsPuzzle
             this.mGoal = true;
             return this.mGoal;
         }
+
+        public bool isReady()
+        {
+            if(this.mChipsList.isEmpty())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

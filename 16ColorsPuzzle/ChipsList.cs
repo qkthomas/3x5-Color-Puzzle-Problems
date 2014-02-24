@@ -37,5 +37,11 @@ namespace _16ColorsPuzzle
             get { return this.mChipsList[index]; }
             set { this.mChipsList[index] = value; }
         }
+
+        public bool isEmpty()
+        {
+            bool isEmpty = !this.mChipsList.Any();
+            return isEmpty;
+        }
     }
 }
