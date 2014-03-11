@@ -65,6 +65,7 @@
     <Compile Include="Data\LoopKiller.cs" />
     <Compile Include="Data\State.cs" />
     <Compile Include="Data\StateNode.cs" />
+    <Compile Include="Data\StateTree.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
