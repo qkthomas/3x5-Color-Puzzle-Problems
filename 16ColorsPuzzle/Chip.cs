@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace _16ColorsPuzzle
 {
-    struct Chip
+    class Chip
     {
         public readonly Color mChipColor;
 
