@@ -8,8 +8,8 @@ namespace _16ColorsPuzzle.Data
 {
     class StateNode
     {
-        State mCurrentState;
-        StateNode mParent;
-        List<StateNode> mChildren = new List<StateNode>();
+        private State mCurrentState;
+        private StateNode mParent;
+        private List<StateNode> mChildren = new List<StateNode>();
     }
 }

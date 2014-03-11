@@ -8,7 +8,7 @@ namespace _16ColorsPuzzle.Data
 {
     class LoopKiller
     {
-        List<State> mOpenList = new List<State>();
-        List<State> mCloseList = new List<State>();
+        private List<State> mOpenList = new List<State>();
+        private List<State> mCloseList = new List<State>();
     }
 }
