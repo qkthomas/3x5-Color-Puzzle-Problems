@@ -8,6 +8,6 @@ namespace _16ColorsPuzzle.Moving
 {
     interface IMover<T>
     {
-        void Move(T obj);
+        T Move(T obj);
     }
 }

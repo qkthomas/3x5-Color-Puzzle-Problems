@@ -9,8 +9,10 @@ namespace _16ColorsPuzzle.Moving
 {
     class LeftMover : IMover<State>
     {
-        void Move(State current_state)
+        State Move(State current_state)
         {
+            State new_state = current_state.NewShallowClone();
+            return new_state;
         }
     }
 }
