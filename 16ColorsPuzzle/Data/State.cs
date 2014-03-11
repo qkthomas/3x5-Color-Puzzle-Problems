@@ -11,8 +11,8 @@ namespace _16ColorsPuzzle.Data
         #region Static Fields
 		public static bool operator == (State a, State b)
         {
-            List<Chip> ChipsListA = a.mChipsList;
-            List<Chip> ChipsListB = b.mChipsList;
+            ChipsList ChipsListA = a.mChipsList;
+            ChipsList ChipsListB = b.mChipsList;
             if (ChipsListA.Count == ChipsListB.Count)
             {
                 for (int i = 0; i < ChipsListA.Count; i++)
@@ -31,17 +31,15 @@ namespace _16ColorsPuzzle.Data
         } 
 	#endregion
 
-        private List<Chip> mChipsList = new List<Chip>();
+        private ChipsList mChipsList = new ChipsList();
+        private Tuple<int, int> mRowColumnConfig = Tuple.Create<int, int>(3, 5);
+        private int mCurrentEmptySpaceIndex;
+        private bool mGoal = false;
 
-        public int Count
+        public bool Goal
         {
-            get { return this.mChipsList.Count; }
-        }
-
-        public Chip this[int index]
-        {
-            get { return this.mChipsList[index]; }
-            set { this.mChipsList[index] = value; }
+            get { return this.mGoal; }
+            set { this.mGoal = value; }
         }
 
     }
