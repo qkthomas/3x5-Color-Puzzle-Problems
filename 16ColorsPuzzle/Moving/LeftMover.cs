@@ -12,6 +12,7 @@ namespace _16ColorsPuzzle.Moving
         State Move(State current_state)
         {
             State new_state = current_state.NewShallowClone();
+            MoveController.MoveEmptySpaceRight(new_state);
             return new_state;
         }
     }
