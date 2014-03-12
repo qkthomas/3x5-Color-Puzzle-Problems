@@ -81,6 +81,7 @@
     <Compile Include="Moving\DownMover.cs" />
     <Compile Include="Moving\LeftMover.cs" />
     <Compile Include="Moving\IMover.cs" />
+    <Compile Include="Moving\MoveController.cs" />
     <Compile Include="Moving\RightMover.cs" />
     <Compile Include="Moving\UpMover.cs" />
     <Compile Include="Program.cs" />
