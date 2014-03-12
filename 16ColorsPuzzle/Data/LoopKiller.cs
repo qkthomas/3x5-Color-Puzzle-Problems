@@ -8,7 +8,7 @@ namespace _16ColorsPuzzle.Data
 {
     class LoopKiller
     {
-        private List<State> mOpenList = new List<State>();
+        private Stack<State> mOpenStack = new Stack<State>();
         private List<State> mCloseList = new List<State>();
 
         public bool isInCloseList(State IN_state)
@@ -23,9 +23,14 @@ namespace _16ColorsPuzzle.Data
             return false;
         }
 
-        public void AddToOpenList(State IN_state)
+        public void PushToOpenStack(State IN_state)
         {
-            this.mOpenList.Add(IN_state);
+            this.mOpenStack.Push(IN_state);
+        }
+
+        public State PopFromOpenStack()
+        {
+            return this.mOpenStack.Pop();
         }
 
         public void AddToCloseList(State IN_state)
