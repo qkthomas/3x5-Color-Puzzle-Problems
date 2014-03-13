@@ -9,7 +9,7 @@ namespace _16ColorsPuzzle.Moving
 {
     class DownMover : IMover<State>
     {
-        State Move(State current_state)
+        public State Move(State current_state)
         {
             State new_state = current_state.NewShallowClone();
             MoveController.MoveEmptySpaceUp(new_state);
