@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _16ColorsPuzzle.Moving;
+using System.Drawing;
 
 namespace _16ColorsPuzzle.Data
 {
     class State
     {
         #region Static Fields
-        static public readonly Tuple<int, int> smRowColumnConfig = Tuple.Create<int, int>(3, 5);
+        public static readonly Tuple<int, int> smRowColumnConfig = Tuple.Create<int, int>(3, 5);
+        public static readonly char smIndexBase = 'A';
 		public static bool operator == (State a, State b)
         {
             ChipsList ChipsListA = a.mChipsList;
@@ -35,7 +37,30 @@ namespace _16ColorsPuzzle.Data
 
         private ChipsList mChipsList = new ChipsList();
         private int mCurrentEmptySpaceIndex;
+        private char mDestOfPreviousMove = '\0';
         private bool mGoal = false;
+
+        public State(ChipsList lst_chips)
+        {
+            this.mChipsList = lst_chips;
+            int how_many_empty_space = 0;
+            for (int i = 0; i < this.mChipsList.Count; i++ )
+            {
+                if (this.mChipsList[i].mChipColor == Color.Transparent)
+                {
+                    how_many_empty_space++;
+                    this.mCurrentEmptySpaceIndex = i;
+                }
+                if (how_many_empty_space > 1)
+                {
+                    throw new Exception("There are more than one empty space in the configuration!!");
+                }
+            }
+            if (how_many_empty_space == 1)
+            {
+                throw new Exception("There is no empty space in the configuration!!");
+            }
+        }
 
         public int CurrentEmptySpaceIndex
         {
@@ -86,6 +111,12 @@ namespace _16ColorsPuzzle.Data
         public ChipsList InnerChipsList
         {
             get { return this.mChipsList; }
+        }
+
+        public char DestinationOfPreviousMove
+        {
+            get { return this.mDestOfPreviousMove; }
+            set { this.mDestOfPreviousMove = value; }
         }
 
     }

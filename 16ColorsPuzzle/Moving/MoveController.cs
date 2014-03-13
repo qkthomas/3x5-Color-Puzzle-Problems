@@ -18,6 +18,7 @@ namespace _16ColorsPuzzle.Moving
             {
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
+                s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
             }
         }
 
@@ -29,6 +30,7 @@ namespace _16ColorsPuzzle.Moving
             {
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
+                s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
             }
         }
 
@@ -40,6 +42,7 @@ namespace _16ColorsPuzzle.Moving
             {
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
+                s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
             }
         }
 
@@ -51,6 +54,7 @@ namespace _16ColorsPuzzle.Moving
             {
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
+                s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
             }
         }
 
