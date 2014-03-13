@@ -84,7 +84,7 @@ namespace _16ColorsPuzzle.Data
             set { this.mGoal = value; }
         }
 
-        private bool ReachGoal()
+        private void ReachGoal()
         {
             int number_of_row = State.smRowColumnConfig.Item1;
             int number_of_column = State.smRowColumnConfig.Item2;
@@ -94,11 +94,11 @@ namespace _16ColorsPuzzle.Data
                 if (this.mChipsList[i] != this.mChipsList[i + offset_first_row_last_row])
                 {
                     this.mGoal = false;
-                    return this.mGoal;
+                    //return this.mGoal;
                 }
             }
             this.mGoal = true;
-            return this.mGoal;
+            //return this.mGoal;
         }
 
         //maybe it is not a good idea.
