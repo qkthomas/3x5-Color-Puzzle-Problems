@@ -15,5 +15,10 @@ namespace _16ColorsPuzzle.Moving
             MoveController.MoveEmptySpaceRight(new_state);
             return new_state;
         }
+
+        public bool CanMove(State current_state)
+        {
+            return MoveController.EmptySpaceRightMovable(current_state);
+        }
     }
 }

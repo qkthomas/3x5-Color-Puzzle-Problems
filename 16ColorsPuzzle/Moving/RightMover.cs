@@ -12,8 +12,13 @@ namespace _16ColorsPuzzle.Moving
         public State Move(State current_state)
         {
             State new_state = current_state.NewShallowClone();
-            MoveController.MoveEmptySpaceLeft(current_state);
+            MoveController.MoveEmptySpaceLeft(new_state);
             return new_state;
+        }
+
+        public bool CanMove(State current_state)
+        {
+            return MoveController.EmptySpaceLeftMovable(current_state);
         }
     }
 }

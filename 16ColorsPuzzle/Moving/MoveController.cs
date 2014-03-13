@@ -22,6 +22,20 @@ namespace _16ColorsPuzzle.Moving
             }
         }
 
+        public static bool EmptySpaceUpMovable(State s)
+        {
+            int dest_swapping_index = s.CurrentEmptySpaceIndex - State.smRowColumnConfig.Item2;   //Item2 is the number of column
+            //do the swapping only when the dest_swapping_index is within range.
+            if (0 <= dest_swapping_index)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static void MoveEmptySpaceDown(State s)
         {
             int dest_swapping_index = s.CurrentEmptySpaceIndex + State.smRowColumnConfig.Item2;   //Item2 is the number of column
@@ -31,6 +45,20 @@ namespace _16ColorsPuzzle.Moving
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
                 s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
+            }
+        }
+
+        public static bool EmptySpaceDownMovable(State s)
+        {
+            int dest_swapping_index = s.CurrentEmptySpaceIndex + State.smRowColumnConfig.Item2;   //Item2 is the number of column
+            //do the swapping only when the dest_swapping_index is within range.
+            if (s.InnerChipsList.Count > dest_swapping_index)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -46,6 +74,20 @@ namespace _16ColorsPuzzle.Moving
             }
         }
 
+        public static bool EmptySpaceLeftMovable(State s)
+        {
+            int dest_swapping_index = s.CurrentEmptySpaceIndex - 1;   //Item2 is the number of column
+            //do the swapping only when the dest_swapping_index is within range.
+            if (0 <= dest_swapping_index && 0 != ((s.CurrentEmptySpaceIndex) % State.smRowColumnConfig.Item2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static void MoveEmptySpaceRight(State s)
         {
             int dest_swapping_index = s.CurrentEmptySpaceIndex + 1;   //Item2 is the number of column
@@ -55,6 +97,20 @@ namespace _16ColorsPuzzle.Moving
                 SwapTwoChips(s, s.CurrentEmptySpaceIndex, dest_swapping_index);
                 s.CurrentEmptySpaceIndex = dest_swapping_index;
                 s.DestinationOfPreviousMove = (char)((int)State.smIndexBase + dest_swapping_index);
+            }
+        }
+
+        public static bool EmptySpaceRightMovable(State s)
+        {
+            int dest_swapping_index = s.CurrentEmptySpaceIndex + 1;   //Item2 is the number of column
+            //do the swapping only when the dest_swapping_index is within range.
+            if (s.InnerChipsList.Count > dest_swapping_index && (State.smRowColumnConfig.Item2 - 1) != ((s.CurrentEmptySpaceIndex) % State.smRowColumnConfig.Item2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
