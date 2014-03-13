@@ -14,6 +14,11 @@ namespace _16ColorsPuzzle.Data
         private List<StateNode> mChildren = new List<StateNode>();
         private LoopKiller mLoopKiller = null;
 
+        public State InnerState
+        {
+            get { return this.mCurrentState; }
+        }
+
         //this constructor need to be better
         private StateNode(State state, StateNode parent, LoopKiller loopkiller)
         {
