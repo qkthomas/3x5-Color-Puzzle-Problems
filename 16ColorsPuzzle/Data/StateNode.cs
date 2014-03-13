@@ -19,6 +19,21 @@ namespace _16ColorsPuzzle.Data
             get { return this.mCurrentState; }
         }
 
+        public List<StateNode> Children
+        {
+            get
+            {
+                if (this.mChildren.Any())
+                {
+                    return this.mChildren;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         //this constructor need to be better
         private StateNode(State state, StateNode parent, LoopKiller loopkiller)
         {
@@ -43,6 +58,7 @@ namespace _16ColorsPuzzle.Data
             foreach(IMover<State> mover in lst_movers)
             {
                 State new_state = mover.Move(mCurrentState);
+                new_state.ReachGoal();
                 if (!this.mLoopKiller.isInCloseList(new_state))
                 {
                     StateNode new_node = new StateNode(new_state, this, this.mLoopKiller);
