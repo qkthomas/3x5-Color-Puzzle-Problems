@@ -22,13 +22,13 @@ namespace _16ColorsPuzzle.Data
             this.mLoopKiller = loopkiller;
         }
 
-        public static StateNode CreateNewRootNode(State root_state)
+        public static StateNode CreateNewRootNode(State root_state, LoopKiller loopkiller_of_tree)
         {
-            StateNode new_root = new StateNode(root_state, null, new LoopKiller());
+            StateNode new_root = new StateNode(root_state, null, loopkiller_of_tree);
             return new_root;
         }
 
-        private void Branch()
+        public void Branch()
         {
             List<IMover<State>> lst_movers = new List<IMover<State>>();
             lst_movers.Add(new LeftMover());
@@ -40,8 +40,9 @@ namespace _16ColorsPuzzle.Data
                 State new_state = mover.Move(mCurrentState);
                 if (!this.mLoopKiller.isInCloseList(new_state))
                 {
-                    this.mLoopKiller.PushToOpenStack(new_state);
-                    this.mChildren.Add(new StateNode(new_state, this, this.mLoopKiller));       //need to do some improvement on the constructor
+                    StateNode new_node = new StateNode(new_state, this, this.mLoopKiller);
+                    this.mLoopKiller.PushToOpenStack(new_node);
+                    this.mChildren.Add(new_node);       //need to do some improvement on the constructor
                 }
             }
         }
