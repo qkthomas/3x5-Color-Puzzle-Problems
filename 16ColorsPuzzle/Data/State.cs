@@ -84,7 +84,7 @@ namespace _16ColorsPuzzle.Data
             set { this.mGoal = value; }
         }
 
-        private void ReachGoal()
+        public void ReachGoal()
         {
             int number_of_row = State.smRowColumnConfig.Item1;
             int number_of_column = State.smRowColumnConfig.Item2;
