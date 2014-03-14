@@ -32,8 +32,13 @@ namespace _16ColorsPuzzle.Data
             {
                 string line = null;
 
-                while ((line = sr.ReadLine()) != null)
+                while ((line = sr.ReadLine())!= null)
                 {
+                    line = line.Trim();
+                    if(line == "")
+                    {
+                        continue;
+                    }
                     string[] lineArrary = Regex.Split(line, " ", RegexOptions.IgnoreCase);
                     configs.Add(new List<string>(lineArrary));
                 }
