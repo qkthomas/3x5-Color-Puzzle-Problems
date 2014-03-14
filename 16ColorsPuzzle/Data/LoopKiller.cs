@@ -11,6 +11,17 @@ namespace _16ColorsPuzzle.Data
         private LinkedList<StateNode> mOpenList = new LinkedList<StateNode>();
         private List<State> mCloseList = new List<State>();
 
+        public LoopKiller CloneWithSameOpenList()
+        {
+            LoopKiller cloned_loopkiller = new LoopKiller();
+            cloned_loopkiller.mOpenList = this.mOpenList;
+            foreach(State s in this.mCloseList)
+            {
+                cloned_loopkiller.AddToCloseList(s);
+            }
+            return cloned_loopkiller;
+        }
+
         public bool isInCloseList(State IN_state)
         {
             foreach (State s in this.mCloseList)
