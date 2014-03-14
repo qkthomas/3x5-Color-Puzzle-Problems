@@ -12,7 +12,7 @@ namespace _16ColorsPuzzle.Data
         private State mCurrentState = null;
         private StateNode mParent = null;
         private List<StateNode> mChildren = new List<StateNode>();
-        private LoopKiller mLoopKiller = null;
+        private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
         private int mLevel = int.MinValue;
 
         public StateNode Parent
@@ -56,6 +56,11 @@ namespace _16ColorsPuzzle.Data
             return new_root;
         }
 
+        public void ToBeVisited()
+        {
+            this.mLoopKiller.AddToCloseList(this.mCurrentState);
+        }
+
         public void Branch()
         {
             List<IMover<State>> lst_movers = new List<IMover<State>>();
@@ -71,7 +76,7 @@ namespace _16ColorsPuzzle.Data
                     new_state.ReachGoal();
                     if (!this.mLoopKiller.isInCloseList(new_state))
                     {
-                        StateNode new_node = new StateNode(new_state, this, this.mLoopKiller);
+                        StateNode new_node = new StateNode(new_state, this, this.mLoopKiller.CloneWithSameOpenList());
                         this.mChildren.Add(new_node);       //need to do some improvement on the constructor
                     } 
                 }
