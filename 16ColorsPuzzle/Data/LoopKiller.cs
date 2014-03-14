@@ -15,10 +15,7 @@ namespace _16ColorsPuzzle.Data
         {
             LoopKiller cloned_loopkiller = new LoopKiller();
             cloned_loopkiller.mOpenList = this.mOpenList;
-            foreach(State s in this.mCloseList)
-            {
-                cloned_loopkiller.AddToCloseList(s);
-            }
+            cloned_loopkiller.mCloseList = new List<State>(this.mCloseList);
             return cloned_loopkiller;
         }
 
