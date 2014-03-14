@@ -32,12 +32,17 @@ namespace _16ColorsPuzzle.Data
             {
                 return false;
             }
-        } 
+        }
+
+        public static bool operator !=(State a, State b)
+        {
+            return !(a == b);
+        }
 	#endregion
 
         private ChipsList mChipsList = new ChipsList();
         private int mCurrentEmptySpaceIndex;
-        private char mDestOfPreviousMove = '\0';
+        private char mDestOfPreviousMove = '_';
         private bool mGoal = false;
 
         public State(ChipsList lst_chips)
@@ -56,7 +61,7 @@ namespace _16ColorsPuzzle.Data
                     throw new Exception("There are more than one empty space in the configuration!!");
                 }
             }
-            if (how_many_empty_space == 1)
+            if (how_many_empty_space == 0)
             {
                 throw new Exception("There is no empty space in the configuration!!");
             }
@@ -94,17 +99,25 @@ namespace _16ColorsPuzzle.Data
                 if (this.mChipsList[i] != this.mChipsList[i + offset_first_row_last_row])
                 {
                     this.mGoal = false;
+                    return;
                     //return this.mGoal;
                 }
             }
             this.mGoal = true;
+            return;
             //return this.mGoal;
         }
 
         //maybe it is not a good idea.
         public State NewShallowClone()
         {
-            return this.MemberwiseClone() as State;
+            State new_state = this.MemberwiseClone() as State;
+            new_state.mChipsList = new ChipsList();
+            foreach(Chip c in this.mChipsList)
+            {
+                new_state.mChipsList.Add(c);
+            }
+            return new_state;
         }
 
         //may lead to some problems
