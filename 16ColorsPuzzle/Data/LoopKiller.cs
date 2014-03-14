@@ -8,7 +8,7 @@ namespace _16ColorsPuzzle.Data
 {
     class LoopKiller
     {
-        private Stack<StateNode> mOpenStack = new Stack<StateNode>();
+        private LinkedList<StateNode> mOpenList = new LinkedList<StateNode>();
         private List<State> mCloseList = new List<State>();
 
         public bool isInCloseList(State IN_state)
@@ -23,14 +23,32 @@ namespace _16ColorsPuzzle.Data
             return false;
         }
 
+        public void Reset()
+        {
+            this.mOpenList.Clear();
+            this.mCloseList.Clear();
+        }
+
+        public void OfferToOpenQueue(StateNode IN_state_node)
+        {
+            this.mOpenList.AddLast(IN_state_node);
+        }
+
+        public StateNode PollFromOpenQueue()
+        {
+            return this.PopFromOpenStack();
+        }
+
         public void PushToOpenStack(StateNode IN_state_node)
         {
-            this.mOpenStack.Push(IN_state_node);
+            this.mOpenList.AddFirst(IN_state_node);
         }
 
         public StateNode PopFromOpenStack()
         {
-            return this.mOpenStack.Pop();
+            StateNode top = this.mOpenList.First.Value;
+            this.mOpenList.RemoveFirst();
+            return top;
         }
 
         public void AddToCloseList(State IN_state)
