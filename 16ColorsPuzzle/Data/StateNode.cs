@@ -13,7 +13,12 @@ namespace _16ColorsPuzzle.Data
         private StateNode mParent = null;
         private List<StateNode> mChildren = new List<StateNode>();
         private LoopKiller mLoopKiller = null;
+        private int mLevel = int.MinValue;
 
+        public StateNode Parent
+        {
+            get { return this.mParent; }
+        }
         public State InnerState
         {
             get { return this.mCurrentState; }
@@ -21,17 +26,12 @@ namespace _16ColorsPuzzle.Data
 
         public List<StateNode> Children
         {
-            get
-            {
-                if (this.mChildren.Any())
-                {
-                    return this.mChildren;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get { return this.mChildren; }
+        }
+
+        public int Level
+        {
+            get { return this.mLevel; }
         }
 
         //this constructor need to be better
@@ -39,6 +39,14 @@ namespace _16ColorsPuzzle.Data
         {
             this.mCurrentState = state;
             this.mParent = parent;
+            if (null == this.mParent)
+            {
+                this.mLevel = 0;
+            }
+            else
+            {
+                this.mLevel = this.mParent.mLevel + 1;
+            }
             this.mLoopKiller = loopkiller;
         }
 
@@ -57,13 +65,15 @@ namespace _16ColorsPuzzle.Data
             lst_movers.Add(new DownMover());
             foreach(IMover<State> mover in lst_movers)
             {
-                State new_state = mover.Move(mCurrentState);
-                new_state.ReachGoal();
-                if (!this.mLoopKiller.isInCloseList(new_state))
+                if (mover.CanMove(mCurrentState))
                 {
-                    StateNode new_node = new StateNode(new_state, this, this.mLoopKiller);
-                    this.mLoopKiller.PushToOpenStack(new_node);
-                    this.mChildren.Add(new_node);       //need to do some improvement on the constructor
+                    State new_state = mover.Move(mCurrentState);
+                    new_state.ReachGoal();
+                    if (!this.mLoopKiller.isInCloseList(new_state))
+                    {
+                        StateNode new_node = new StateNode(new_state, this, this.mLoopKiller);
+                        this.mChildren.Add(new_node);       //need to do some improvement on the constructor
+                    } 
                 }
             }
         }
