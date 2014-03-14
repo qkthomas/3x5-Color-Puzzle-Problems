@@ -54,9 +54,16 @@ namespace _16ColorsPuzzle.Data
 
         public StateNode PopFromOpenStack()
         {
-            StateNode top = this.mOpenList.First.Value;
-            this.mOpenList.RemoveFirst();
-            return top;
+            if (null != this.mOpenList.First)
+            {
+                StateNode top = this.mOpenList.First.Value;
+                this.mOpenList.RemoveFirst();
+                return top;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void AddToCloseList(State IN_state)
