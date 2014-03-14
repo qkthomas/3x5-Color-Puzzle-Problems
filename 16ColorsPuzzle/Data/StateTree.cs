@@ -12,31 +12,35 @@ namespace _16ColorsPuzzle.Data
         public static int smVisitedNodesCount = 0; 
         #endregion
 
-        public enum VisitResult { Goal, NotAGoal, ExceededMaxLevel}
+        public enum VisitResult { VisitedNodeGoal, VisitedNodeNotAGoal, VisitedNodeExceededMaxLevel}
         private StateNode mRootNode;
         private StateNode mCurrentVisitingNode = null;
-        private LoopKiller mLoopKiller;
+        private LoopKiller mLoopKiller;         //but closelist will be useless for this class.
 
         public StateTree(State root_node_state)
         {
+            root_node_state.ReachGoal();
             this.mLoopKiller = new LoopKiller();
             this.mRootNode = StateNode.CreateNewRootNode(root_node_state, this.mLoopKiller);
             this.mLoopKiller.PushToOpenStack(this.mRootNode);
         }
 
         //Iterative deepening depth-first search
-        public void IDDFSVisitNextNode()
+        public void IDDFSTraverse()
         {
-            smVisitedNodesCount++;
             int max_search_level = 1;
             while(true)
             {
-                VisitResult result = this.DFSVisitNextNode(max_search_level);
-                if(VisitResult.Goal == result)
+                VisitResult result = this.IIDFSVisitNextNode(max_search_level);
+                if(VisitResult.VisitedNodeGoal == result)
                 {
                     break;
                 }
-                if (VisitResult.ExceededMaxLevel == result)
+                else if(VisitResult.VisitedNodeNotAGoal == result)
+                {
+                    //ignore
+                }
+                else// (VisitResult.VisitedNodeExceededMaxLevel == result)
                 {
                     this.ResetTree();
                     max_search_level++;
@@ -46,118 +50,101 @@ namespace _16ColorsPuzzle.Data
 
         }
 
-        private void ResetTree()
+        private VisitResult IIDFSVisitNextNode(int until_level)
         {
-            this.mCurrentVisitingNode = null;
-            this.mLoopKiller.Reset();
-            this.mRootNode = StateNode.CreateNewRootNode(this.mRootNode.InnerState, this.mLoopKiller);
-            this.mLoopKiller.PushToOpenStack(this.mRootNode);
-        }
-
-        //uninformed BFS
-        private VisitResult BFSVisitNextNode()
-        {
-            smVisitedNodesCount++;
-            this.mCurrentVisitingNode = this.mLoopKiller.PollFromOpenQueue();
-            if (true == this.mCurrentVisitingNode.InnerState.Goal)
+            this.mCurrentVisitingNode = this.mLoopKiller.PopFromOpenStack();
+            if (null == this.mCurrentVisitingNode)
             {
-                //reached the goal node
-                return VisitResult.Goal;
+                return VisitResult.VisitedNodeExceededMaxLevel;
             }
             else
             {
-                if (null != this.mCurrentVisitingNode)
-                {
-                    this.mLoopKiller.AddToCloseList(this.mCurrentVisitingNode.InnerState);
-                }
-                else
-                {
-                    //something wrong.
-                }
-                this.mCurrentVisitingNode.Branch();
-                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
-                foreach (StateNode sn in lst_children_node_of_current_node)
-                {
-                    this.mLoopKiller.OfferToOpenQueue(sn);
-                }
-                return VisitResult.NotAGoal;
-            }
-        }
-
-        //uninformed DFS
-        private VisitResult DFSVisitNextNode()
-        {
-            this.mCurrentVisitingNode = this.mLoopKiller.PopFromOpenStack();
-            if (true == this.mCurrentVisitingNode.InnerState.Goal)
-            {
-                //reached the goal node
-                return VisitResult.Goal;
-            }
-            else
-            {
-                if (null != this.mCurrentVisitingNode)
-                {
-                    this.mLoopKiller.AddToCloseList(this.mCurrentVisitingNode.InnerState);
-                }
-                else
-                {
-                    //something wrong.
-                }
-                this.mCurrentVisitingNode.Branch();
-                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
-                foreach (StateNode sn in lst_children_node_of_current_node)
-                {
-                    this.mLoopKiller.PushToOpenStack(sn);
-                }
-                return VisitResult.NotAGoal;
-            }
-        }
-
-        private VisitResult DFSVisitNextNode(int until_level)
-        {
-            this.mCurrentVisitingNode = this.mLoopKiller.PopFromOpenStack();
-            if (until_level >= this.mCurrentVisitingNode.Level)
-            {
+                smVisitedNodesCount++;
+                this.mCurrentVisitingNode.ToBeVisited();
                 if (true == this.mCurrentVisitingNode.InnerState.Goal)
                 {
                     //reached the goal node
-                    return VisitResult.Goal;
+                    return VisitResult.VisitedNodeGoal;
                 }
                 else
                 {
-                    if (null != this.mCurrentVisitingNode)
-                    {
-                        this.mLoopKiller.AddToCloseList(this.mCurrentVisitingNode.InnerState);
-                    }
-                    else
-                    {
-                        //something wrong.
-                    }
                     if (!this.mCurrentVisitingNode.Children.Any())
                     {
                         this.mCurrentVisitingNode.Branch();
                     }
-                    List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
-                    foreach (StateNode sn in lst_children_node_of_current_node)
+                    else
                     {
-                        this.mLoopKiller.PushToOpenStack(sn);
+                        int bp = 0;
+                        //something wrong;
                     }
-                    return VisitResult.NotAGoal;
+                    if (until_level > this.mCurrentVisitingNode.Level)
+                    {
+                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                        foreach (StateNode sn in lst_children_node_of_current_node)
+                        {
+                            this.mLoopKiller.PushToOpenStack(sn);
+                        }
+                    }
+                    return VisitResult.VisitedNodeNotAGoal;
+                }
+            }
+            #region deprecated code
+            /*
+            if (until_level >= this.mCurrentVisitingNode.Level)
+            {
+                smVisitedNodesCount++;
+                this.mCurrentVisitingNode.ToBeVisited();
+                if (true == this.mCurrentVisitingNode.InnerState.Goal)
+                {
+                    //reached the goal node
+                    return VisitResult.VisitedNodeGoal;
+                }
+                else
+                {
+                    if (!this.mCurrentVisitingNode.Children.Any())
+                    {
+                        this.mCurrentVisitingNode.Branch();
+                    }
+                    else
+                    {
+                        int bp = 0;
+                        //something wrong;
+                    }
+                    if (until_level > this.mCurrentVisitingNode.Level)
+                    {
+                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                        foreach (StateNode sn in lst_children_node_of_current_node)
+                        {
+                            this.mLoopKiller.PushToOpenStack(sn);
+                        } 
+                    }
+                    return VisitResult.VisitedNodeNotAGoal;
                 }
             }
             else
             {
-                return VisitResult.ExceededMaxLevel;
+                //this.mLoopKiller.PushToOpenStack(this.mCurrentVisitingNode);
+                return VisitResult.VisitedNodeExceededMaxLevel;
             }
+             * */
+            #endregion
         }
 
-        public void FindGoal()
+        private void ResetTree()
+        {
+            this.mCurrentVisitingNode = null;
+            this.mLoopKiller.Reset();
+            //this.mRootNode = StateNode.CreateNewRootNode(this.mRootNode.InnerState, this.mLoopKiller);
+            this.mLoopKiller.PushToOpenStack(this.mRootNode);
+        }
+
+        public void BFSTraverse()
         {
             bool find = false;
-            while(!find)
+            while (!find)
             {
                 VisitResult vr = this.BFSVisitNextNode();
-                if(vr == VisitResult.Goal)
+                if (vr == VisitResult.VisitedNodeGoal)
                 {
                     find = true;
                 }
@@ -165,6 +152,68 @@ namespace _16ColorsPuzzle.Data
                 {
                     find = false;
                 }
+            }
+        }
+
+        //uninformed BFS
+        private VisitResult BFSVisitNextNode()
+        {
+            smVisitedNodesCount++;
+            this.mCurrentVisitingNode = this.mLoopKiller.PollFromOpenQueue();
+            this.mCurrentVisitingNode.ToBeVisited();
+            if (true == this.mCurrentVisitingNode.InnerState.Goal)
+            {
+                //reached the goal node
+                return VisitResult.VisitedNodeGoal;
+            }
+            else
+            {
+                this.mCurrentVisitingNode.Branch();
+                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                foreach (StateNode sn in lst_children_node_of_current_node)
+                {
+                    this.mLoopKiller.OfferToOpenQueue(sn);
+                }
+                return VisitResult.VisitedNodeNotAGoal;
+            }
+        }
+
+        public void DFSTraverse()
+        {
+            bool find = false;
+            while (!find)
+            {
+                VisitResult vr = this.DFSVisitNextNode();
+                if (vr == VisitResult.VisitedNodeGoal)
+                {
+                    find = true;
+                }
+                else
+                {
+                    find = false;
+                }
+            }
+        }
+
+        //uninformed DFS
+        private VisitResult DFSVisitNextNode()
+        {
+            this.mCurrentVisitingNode = this.mLoopKiller.PopFromOpenStack();
+            this.mCurrentVisitingNode.ToBeVisited();
+            if (true == this.mCurrentVisitingNode.InnerState.Goal)
+            {
+                //reached the goal node
+                return VisitResult.VisitedNodeGoal;
+            }
+            else
+            {
+                this.mCurrentVisitingNode.Branch();
+                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                foreach (StateNode sn in lst_children_node_of_current_node)
+                {
+                    this.mLoopKiller.PushToOpenStack(sn);
+                }
+                return VisitResult.VisitedNodeNotAGoal;
             }
         }
 
