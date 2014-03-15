@@ -58,7 +58,7 @@ namespace _16ColorsPuzzle.Data
                     Color color = dict_string_color[str];
                     cplst.Add(new Chip(color));
                 }
-                State new_init_state = new State(cplst);
+                State new_init_state = State.CreateNewStateFromChipsList(cplst);
                 states.Add(new_init_state);
             }
             return states;
