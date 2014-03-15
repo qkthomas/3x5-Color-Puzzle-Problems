@@ -72,7 +72,7 @@ namespace _16ColorsPuzzle.Data
             {
                 if (mover.CanMove(mCurrentState))
                 {
-                    State new_state = mover.Move(mCurrentState);
+                    State new_state = mCurrentState.CreatNewStateFromMoving(mover);
                     if (!this.mLoopKiller.isInCloseList(new_state))
                     {
                         StateNode new_node = new StateNode(new_state, this, this.mLoopKiller.CloneWithSameOpenList());
