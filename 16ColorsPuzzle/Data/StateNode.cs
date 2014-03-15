@@ -7,14 +7,25 @@ using _16ColorsPuzzle.Moving;
 
 namespace _16ColorsPuzzle.Data
 {
-    class StateNode
+    class StateNode : IComparable<StateNode>
     {
+        #region Implementation of IComparable<StateNode>
+        int IComparable<StateNode>.CompareTo(StateNode other_statenode)
+        {
+            IComparable<State> current_comparable_state = this.mCurrentState;
+            return current_comparable_state.CompareTo(other_statenode.mCurrentState);
+        }
+        #endregion
+
+        #region Fields
         private State mCurrentState = null;
         private StateNode mParent = null;
         private List<StateNode> mChildren = new List<StateNode>();
         private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
-        private int mLevel = int.MinValue;
+        private int mLevel = int.MinValue; 
+        #endregion
 
+        #region Properties
         public StateNode Parent
         {
             get { return this.mParent; }
@@ -32,8 +43,10 @@ namespace _16ColorsPuzzle.Data
         public int Level
         {
             get { return this.mLevel; }
-        }
+        } 
+        #endregion
 
+        #region Object creation, constructors
         //this constructor need to be better
         private StateNode(State state, StateNode parent, LoopKiller loopkiller)
         {
@@ -54,8 +67,10 @@ namespace _16ColorsPuzzle.Data
         {
             StateNode new_root = new StateNode(root_state, null, loopkiller_of_tree);
             return new_root;
-        }
+        } 
+        #endregion
 
+        #region methods
         public void ToBeVisited()
         {
             this.mLoopKiller.AddToCloseList(this.mCurrentState);
@@ -68,7 +83,7 @@ namespace _16ColorsPuzzle.Data
             lst_movers.Add(new RightMover());
             lst_movers.Add(new UpMover());
             lst_movers.Add(new DownMover());
-            foreach(IMover<State> mover in lst_movers)
+            foreach (IMover<State> mover in lst_movers)
             {
                 if (mover.CanMove(mCurrentState))
                 {
@@ -77,9 +92,10 @@ namespace _16ColorsPuzzle.Data
                     {
                         StateNode new_node = new StateNode(new_state, this, this.mLoopKiller.CloneWithSameOpenList());
                         this.mChildren.Add(new_node);       //need to do some improvement on the constructor
-                    } 
+                    }
                 }
             }
-        }
+        } 
+        #endregion
     }
 }
