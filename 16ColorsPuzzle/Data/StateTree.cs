@@ -19,7 +19,6 @@ namespace _16ColorsPuzzle.Data
 
         public StateTree(State root_node_state)
         {
-            root_node_state.ReachGoal();
             this.mLoopKiller = new LoopKiller();
             this.mRootNode = StateNode.CreateNewRootNode(root_node_state, this.mLoopKiller);
             this.mLoopKiller.PushToOpenStack(this.mRootNode);
@@ -59,6 +58,10 @@ namespace _16ColorsPuzzle.Data
             }
             else
             {
+                if (this.mCurrentVisitingNode.Level > until_level)
+                {
+                    //something wrong
+                }
                 smVisitedNodesCount++;
                 this.mCurrentVisitingNode.ToBeVisited();
                 if (true == this.mCurrentVisitingNode.InnerState.Goal)
