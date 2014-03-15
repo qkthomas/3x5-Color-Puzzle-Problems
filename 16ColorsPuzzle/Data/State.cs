@@ -45,7 +45,14 @@ namespace _16ColorsPuzzle.Data
         private char mDestOfPreviousMove = '_';
         private bool mGoal = false;
 
-        public State(ChipsList lst_chips)
+        public static State CreateNewStateFromChipsList(ChipsList lst_chips)
+        {
+            State new_state = new State(lst_chips);
+            new_state.ReachGoal();
+            return new_state;
+        }
+
+        private State(ChipsList lst_chips)
         {
             this.mChipsList = lst_chips;
             int how_many_empty_space = 0;
