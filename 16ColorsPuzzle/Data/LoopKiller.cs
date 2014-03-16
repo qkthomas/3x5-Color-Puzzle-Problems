@@ -37,6 +37,31 @@ namespace _16ColorsPuzzle.Data
             this.mCloseList.Clear();
         }
 
+        public StateNode PollSmallestFromOpenList()
+        {
+            if (true == this.mOpenList.Any())
+            {
+                var smallest_node = this.mOpenList.First;
+                var iterator_node = this.mOpenList.First.Next;
+                while (null != iterator_node)
+                {
+                    if (iterator_node.Value < smallest_node.Value)
+                    {
+                        smallest_node = iterator_node;
+                    }
+                    iterator_node = iterator_node.Next;
+
+                }
+                StateNode smallest_value = smallest_node.Value;
+                this.mOpenList.Remove(smallest_node);
+                return smallest_value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void OfferToOpenQueue(StateNode IN_state_node)
         {
             this.mOpenList.AddLast(IN_state_node);
