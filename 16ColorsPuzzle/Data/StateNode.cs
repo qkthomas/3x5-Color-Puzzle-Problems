@@ -72,6 +72,11 @@ namespace _16ColorsPuzzle.Data
             }
         }
 
+        public static bool operator !=(StateNode a, StateNode b)
+        {
+            return !(a == b);
+        }
+
         public static bool operator <=(StateNode a, StateNode b)
         {
             int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
