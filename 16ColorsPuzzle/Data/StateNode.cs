@@ -60,6 +60,18 @@ namespace _16ColorsPuzzle.Data
 
         public static bool operator ==(StateNode a, StateNode b)
         {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
             int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
             int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
             if (a_comparable_value == b_comparable_value)
