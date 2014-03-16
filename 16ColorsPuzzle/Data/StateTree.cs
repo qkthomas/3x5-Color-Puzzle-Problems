@@ -41,7 +41,7 @@ namespace _16ColorsPuzzle.Data
                 }
                 else// (VisitResult.VisitedNodeExceededMaxLevel == result)
                 {
-                    this.ResetTree();
+                    this.ResetSearch();
                     max_search_level++;
                     continue;
                 }
@@ -109,10 +109,11 @@ namespace _16ColorsPuzzle.Data
                 else if(VisitResult.VisitedNodeNotAGoal == result)
                 {
                     //ignore
+                    continue;
                 }
                 else// (VisitResult.VisitedNodeExceededMaxLevel == result)
                 {
-                    this.ResetTree();
+                    this.ResetSearch();
                     max_search_level++;
                     continue;
                 }
@@ -131,6 +132,7 @@ namespace _16ColorsPuzzle.Data
                 if (this.mCurrentVisitingNode.Level > until_level)
                 {
                     //something wrong
+                    int bp = 0;
                 }
                 smVisitedNodesCount++;
                 this.mCurrentVisitingNode.ToBeVisited();
@@ -203,12 +205,6 @@ namespace _16ColorsPuzzle.Data
             #endregion
         }
         #endregion
-
-        private void ResetTree()
-        {
-            this.mCurrentVisitingNode = null;
-            this.mLoopKiller.Reset();
-        }
 
         #region BFS
         public void BFSTraverse()
@@ -294,6 +290,25 @@ namespace _16ColorsPuzzle.Data
             }
         }
         #endregion
+
+        private void ResetSearch()
+        {
+            this.ResetTree();
+            this.mLoopKiller.PushToOpenStack(this.mRootNode);
+        }
+
+        private void ResetTree()
+        {
+            this.mCurrentVisitingNode = null;
+            this.mLoopKiller.Reset();
+        }
+        
+        public string PrintResultAndReset()
+        {
+            string result = this.GetSoFarTrace();
+            this.ResetTree();
+            return result;
+        }
 
         public string GetSoFarTrace()
         {
