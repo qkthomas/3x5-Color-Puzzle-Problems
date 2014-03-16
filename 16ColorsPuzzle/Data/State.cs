@@ -161,8 +161,7 @@ namespace _16ColorsPuzzle.Data
         #endregion
 
         #region methods: evaluation and goal checking
-        //the smaller the better
-        private void StateEvaluation()
+        private void StateEvaluation()  //the smaller the better
         {
             int number_of_asymmetry_pairs = 0;
 
