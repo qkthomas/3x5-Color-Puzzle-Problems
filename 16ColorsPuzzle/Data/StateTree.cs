@@ -301,6 +301,7 @@ namespace _16ColorsPuzzle.Data
         {
             this.mCurrentVisitingNode = null;
             this.mLoopKiller.Reset();
+            StateTree.smVisitedNodesCount = 0;
         }
         
         public string PrintResultAndReset()
