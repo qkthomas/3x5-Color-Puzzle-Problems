@@ -21,12 +21,83 @@ namespace _16ColorsPuzzle.Data
         {
             this.mLoopKiller = new LoopKiller();
             this.mRootNode = StateNode.CreateNewRootNode(root_node_state, this.mLoopKiller);
-            this.mLoopKiller.PushToOpenStack(this.mRootNode);
         }
 
-        //Iterative deepening depth-first search
+        #region Heuristic search
+        public void HeuristicTraverse()
+        {
+            this.mLoopKiller.PushToOpenStack(this.mRootNode);
+            int max_search_level = 1;
+            while (true)
+            {
+                VisitResult result = this.HIIDFSVisitNextNode(max_search_level);
+                if (VisitResult.VisitedNodeGoal == result)
+                {
+                    break;
+                }
+                else if (VisitResult.VisitedNodeNotAGoal == result)
+                {
+                    //ignore
+                }
+                else// (VisitResult.VisitedNodeExceededMaxLevel == result)
+                {
+                    this.ResetTree();
+                    max_search_level++;
+                    continue;
+                }
+            }
+        }
+
+        private VisitResult HIIDFSVisitNextNode(int until_level)
+        {
+            this.mCurrentVisitingNode = this.mLoopKiller.PollSmallestFromOpenList();    //poll the smaller one
+
+            if (null == this.mCurrentVisitingNode)
+            {
+                return VisitResult.VisitedNodeExceededMaxLevel;
+            }
+            else
+            {
+                if (this.mCurrentVisitingNode.Level > until_level)
+                {
+                    //something wrong
+                }
+                smVisitedNodesCount++;
+                this.mCurrentVisitingNode.ToBeVisited();
+                if (true == this.mCurrentVisitingNode.InnerState.Goal)
+                {
+                    //reached the goal node
+                    return VisitResult.VisitedNodeGoal;
+                }
+                else
+                {
+                    if (!this.mCurrentVisitingNode.Children.Any())
+                    {
+                        this.mCurrentVisitingNode.Branch();
+                    }
+                    else
+                    {
+                        int bp = 0;
+                        //something wrong;
+                    }
+                    if (until_level > this.mCurrentVisitingNode.Level)
+                    {
+                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                        foreach (StateNode sn in lst_children_node_of_current_node)
+                        {
+                            this.mLoopKiller.PushToOpenStack(sn);       //it doesn't matter whether it is used as stack or queue.
+                        }
+                    }
+                    return VisitResult.VisitedNodeNotAGoal;
+                }
+            }
+        }
+        #endregion
+
+        #region Iterative deepening depth-first search
         public void IDDFSTraverse()
         {
+            this.mLoopKiller.PushToOpenStack(this.mRootNode);
             int max_search_level = 1;
             while(true)
             {
@@ -46,7 +117,6 @@ namespace _16ColorsPuzzle.Data
                     continue;
                 }
             }
-
         }
 
         private VisitResult IIDFSVisitNextNode(int until_level)
@@ -132,17 +202,18 @@ namespace _16ColorsPuzzle.Data
              * */
             #endregion
         }
+        #endregion
 
         private void ResetTree()
         {
             this.mCurrentVisitingNode = null;
             this.mLoopKiller.Reset();
-            //this.mRootNode = StateNode.CreateNewRootNode(this.mRootNode.InnerState, this.mLoopKiller);
-            this.mLoopKiller.PushToOpenStack(this.mRootNode);
         }
 
+        #region BFS
         public void BFSTraverse()
         {
+            this.mLoopKiller.OfferToOpenQueue(this.mRootNode);
             bool find = false;
             while (!find)
             {
@@ -180,9 +251,12 @@ namespace _16ColorsPuzzle.Data
                 return VisitResult.VisitedNodeNotAGoal;
             }
         }
+        #endregion
 
+        #region DFS
         public void DFSTraverse()
         {
+            this.mLoopKiller.PushToOpenStack(this.mRootNode);
             bool find = false;
             while (!find)
             {
@@ -219,6 +293,7 @@ namespace _16ColorsPuzzle.Data
                 return VisitResult.VisitedNodeNotAGoal;
             }
         }
+        #endregion
 
         public string GetSoFarTrace()
         {
