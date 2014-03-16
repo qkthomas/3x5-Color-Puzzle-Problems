@@ -12,8 +12,92 @@ namespace _16ColorsPuzzle.Data
         #region Implementation of IComparable<StateNode>
         int IComparable<StateNode>.CompareTo(StateNode other_statenode)
         {
-            IComparable<State> current_comparable_state = this.mCurrentState;
-            return current_comparable_state.CompareTo(other_statenode.mCurrentState);
+            int this_comparable_value = this.mCurrentState.HeuristicValue + this.Level;
+            int other_comparable_value = other_statenode.mCurrentState.HeuristicValue + other_statenode.Level;
+            if(this_comparable_value > other_comparable_value)
+            {
+                return 0x100;
+            }
+            else if (this_comparable_value < other_comparable_value)
+            {
+                return -0x100;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        #endregion
+
+        #region Override operator for comparison
+        public static bool operator >(StateNode a, StateNode b)
+        {
+            int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
+            int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
+            if (a_comparable_value > b_comparable_value)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator <(StateNode a, StateNode b)
+        {
+            int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
+            int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
+            if (a_comparable_value < b_comparable_value)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator ==(StateNode a, StateNode b)
+        {
+            int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
+            int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
+            if (a_comparable_value == b_comparable_value)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator <=(StateNode a, StateNode b)
+        {
+            int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
+            int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
+            if (a_comparable_value <= b_comparable_value)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool operator >=(StateNode a, StateNode b)
+        {
+            int a_comparable_value = a.mCurrentState.HeuristicValue + a.Level;
+            int b_comparable_value = b.mCurrentState.HeuristicValue + b.Level;
+            if (a_comparable_value >= b_comparable_value)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         #endregion
 
