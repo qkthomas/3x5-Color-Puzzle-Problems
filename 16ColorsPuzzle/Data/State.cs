@@ -58,13 +58,12 @@ namespace _16ColorsPuzzle.Data
         } 
         #endregion
 
-
         #region non-static fields
         private ChipsList mChipsList = new ChipsList();
         private int mCurrentEmptySpaceIndex;
         private char mDestOfPreviousMove = '_';
         private bool mGoal = false;
-        private int HeuristicValue = int.MaxValue;
+        private int mHeuristicValue = int.MaxValue;
         #endregion
 
         #region Object creation, clone
@@ -152,14 +151,32 @@ namespace _16ColorsPuzzle.Data
         {
             get { return this.mDestOfPreviousMove; }
             set { this.mDestOfPreviousMove = value; }
-        } 
+        }
+
+        public int HeuristicValue
+        {
+            get { return this.mHeuristicValue; }
+        }
+
         #endregion
 
-        #region evaluation and goal checking
+        #region methods: evaluation and goal checking
         //the smaller the better
         private void StateEvaluation()
         {
+            int number_of_asymmetry_pairs = 0;
 
+            int number_of_row = State.smRowColumnConfig.Item1;
+            int number_of_column = State.smRowColumnConfig.Item2;
+            int offset_first_row_last_row = (number_of_row - 1) * number_of_column;
+            for (int i = 0; i < number_of_column; i++)
+            {
+                if (this.mChipsList[i] != this.mChipsList[i + offset_first_row_last_row])
+                {
+                    number_of_asymmetry_pairs++;
+                }
+            }
+            this.mHeuristicValue = number_of_asymmetry_pairs;
         }
 
         private void ReachGoal()
