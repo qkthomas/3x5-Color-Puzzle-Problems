@@ -9,7 +9,53 @@ namespace _16ColorsPuzzle.Data
     class LoopKiller
     {
         private LinkedList<StateNode> mOpenList = new LinkedList<StateNode>();
+        private SortedSet<StateNode> mOpenSortedList = new SortedSet<StateNode>();
         private List<State> mCloseList = new List<State>();
+
+        public void AddedToSortedOpenList(StateNode IN_state_node)
+        {
+            IN_state_node.mNextNodeWithSameHeuristic = null;
+            bool add_result = this.mOpenSortedList.Add(IN_state_node);
+            if(false == add_result)
+            {
+                SortedSet<StateNode> view_sn = this.mOpenSortedList.GetViewBetween(IN_state_node, IN_state_node);
+                StateNode found_node = view_sn.Min;
+                StateNode to_find_the_last_node_in_chain_of_found_node = found_node;
+                while (null != to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic)
+                {
+                    to_find_the_last_node_in_chain_of_found_node = to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic;
+                }
+                to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic = IN_state_node;
+                if (to_find_the_last_node_in_chain_of_found_node.Equals(IN_state_node))
+                {
+                    int bp = 0;
+                }
+
+            }
+        }
+
+        public StateNode PollMinFromSortedOpenList()
+        {
+            StateNode min_sn = this.mOpenSortedList.Min;
+            if (null != min_sn)
+            {
+                if (null != min_sn.mNextNodeWithSameHeuristic)
+                {
+                    StateNode min_sn_next = min_sn.mNextNodeWithSameHeuristic;
+                    this.mOpenSortedList.Remove(min_sn);
+                    bool add_result = this.mOpenSortedList.Add(min_sn_next);
+                    if (false == add_result)
+                    {
+                        int bp = 0;
+                    }
+                }
+                else
+                {
+                    this.mOpenSortedList.Remove(min_sn);
+                } 
+            }
+            return min_sn;
+        }
 
         public LoopKiller CloneWithSameOpenList()
         {
@@ -35,9 +81,10 @@ namespace _16ColorsPuzzle.Data
         {
             this.mOpenList.Clear();
             this.mCloseList.Clear();
+            this.mOpenSortedList.Clear();
         }
 
-        public StateNode PollSmallestFromOpenList()
+        public StateNode PollSmallestFromOpenList()     //depricated due to bad performance.
         {
             if (true == this.mOpenList.Any())
             {
