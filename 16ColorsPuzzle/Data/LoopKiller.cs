@@ -20,16 +20,21 @@ namespace _16ColorsPuzzle.Data
             {
                 SortedSet<StateNode> view_sn = this.mOpenSortedList.GetViewBetween(IN_state_node, IN_state_node);
                 StateNode found_node = view_sn.Min;
-                StateNode to_find_the_last_node_in_chain_of_found_node = found_node;
-                while (null != to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic)
-                {
-                    to_find_the_last_node_in_chain_of_found_node = to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic;
-                }
-                to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic = IN_state_node;
-                if (to_find_the_last_node_in_chain_of_found_node.Equals(IN_state_node))
-                {
-                    int bp = 0;
-                }
+                StateNode to_next_node_in_chain_of_found_node = found_node.mNextNodeWithSameHeuristic;
+
+                found_node.mNextNodeWithSameHeuristic = IN_state_node;
+                IN_state_node.mNextNodeWithSameHeuristic = to_next_node_in_chain_of_found_node;
+
+                //while (null != to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic)
+                //{
+                //    to_find_the_last_node_in_chain_of_found_node = to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic;
+                //}
+                //to_find_the_last_node_in_chain_of_found_node.mNextNodeWithSameHeuristic = IN_state_node;
+                //if (to_find_the_last_node_in_chain_of_found_node.Equals(IN_state_node))
+                //{
+                //    //something wrong
+                //    int bp = 0;
+                //}
 
             }
         }
