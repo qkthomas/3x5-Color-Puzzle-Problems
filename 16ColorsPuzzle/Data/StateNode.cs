@@ -121,7 +121,7 @@ namespace _16ColorsPuzzle.Data
         #region Fields
         private State mCurrentState = null;
         private StateNode mParent = null;
-        private List<StateNode> mChildren = new List<StateNode>();
+        //private List<StateNode> mChildren = new List<StateNode>();    //no need for children field, because all unvisited nodes are store in openlist
         private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
         private int mLevel = int.MinValue;
         public StateNode mNextNodeWithSameHeuristic = null;
@@ -137,10 +137,10 @@ namespace _16ColorsPuzzle.Data
             get { return this.mCurrentState; }
         }
 
-        public List<StateNode> Children
-        {
-            get { return this.mChildren; }
-        }
+        //public List<StateNode> Children   //no need for children field, because all unvisited nodes are store in openlist
+        //{
+        //    get { return this.mChildren; }
+        //}
 
         public int Level
         {
@@ -178,8 +178,9 @@ namespace _16ColorsPuzzle.Data
             this.mLoopKiller.AddToCloseList(this.mCurrentState);
         }
 
-        public void Branch()
+        public List<StateNode> BranchChildren()
         {
+            List<StateNode> lst_children_nodes = new List<StateNode>();
             List<IMover<State>> lst_movers = new List<IMover<State>>();
             lst_movers.Add(new LeftMover());
             lst_movers.Add(new RightMover());
@@ -193,10 +194,12 @@ namespace _16ColorsPuzzle.Data
                     if (!this.mLoopKiller.isInCloseList(new_state))
                     {
                         StateNode new_node = new StateNode(new_state, this, this.mLoopKiller.CloneWithSameOpenList());
-                        this.mChildren.Add(new_node);       //need to do some improvement on the constructor
+                        lst_children_nodes.Add(new_node);
+                        //this.mChildren.Add(new_node);       //no need for children field, because all unvisited nodes are store in openlist
                     }
                 }
             }
+            return lst_children_nodes;
         } 
         #endregion
     }

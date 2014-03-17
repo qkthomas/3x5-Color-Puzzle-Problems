@@ -20,7 +20,7 @@ namespace _16ColorsPuzzle.Data
         public StateTree(State root_node_state)
         {
             this.mLoopKiller = new LoopKiller();
-            this.mRootNode = StateNode.CreateNewRootNode(root_node_state, this.mLoopKiller);
+            this.mRootNode = StateNode.CreateNewRootNode(root_node_state, new LoopKiller());
         }
 
         #region Heuristic search
@@ -71,18 +71,18 @@ namespace _16ColorsPuzzle.Data
                 }
                 else
                 {
-                    if (!this.mCurrentVisitingNode.Children.Any())
-                    {
-                        this.mCurrentVisitingNode.Branch();
-                    }
-                    else
-                    {
-                        int bp = 0;
-                        //something wrong;
-                    }
+                    //if (!this.mCurrentVisitingNode.Children.Any())
+                    //{
+                    //    this.mCurrentVisitingNode.Branch();
+                    //}
+                    //else
+                    //{
+                    //    int bp = 0;
+                    //    //something wrong;
+                    //}
                     if (until_level > this.mCurrentVisitingNode.Level)
                     {
-                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.BranchChildren();
                         foreach (StateNode sn in lst_children_node_of_current_node)
                         {
                             this.mLoopKiller.AddedToSortedOpenList(sn);         //it doesn't matter whether it is used as stack or queue.
@@ -143,18 +143,18 @@ namespace _16ColorsPuzzle.Data
                 }
                 else
                 {
-                    if (!this.mCurrentVisitingNode.Children.Any())
-                    {
-                        this.mCurrentVisitingNode.Branch();
-                    }
-                    else
-                    {
-                        int bp = 0;
-                        //something wrong;
-                    }
+                    //if (!this.mCurrentVisitingNode.Children.Any())
+                    //{
+                    //    this.mCurrentVisitingNode.Branch();
+                    //}
+                    //else
+                    //{
+                    //    int bp = 0;
+                    //    //something wrong;
+                    //}
                     if (until_level > this.mCurrentVisitingNode.Level)
                     {
-                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                        List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.BranchChildren();
                         foreach (StateNode sn in lst_children_node_of_current_node)
                         {
                             this.mLoopKiller.PushToOpenStack(sn);
@@ -238,8 +238,8 @@ namespace _16ColorsPuzzle.Data
             }
             else
             {
-                this.mCurrentVisitingNode.Branch();
-                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                //this.mCurrentVisitingNode.Branch();
+                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.BranchChildren();
                 foreach (StateNode sn in lst_children_node_of_current_node)
                 {
                     this.mLoopKiller.OfferToOpenQueue(sn);
@@ -280,8 +280,8 @@ namespace _16ColorsPuzzle.Data
             }
             else
             {
-                this.mCurrentVisitingNode.Branch();
-                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
+                //this.mCurrentVisitingNode.Branch();
+                List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.BranchChildren();
                 foreach (StateNode sn in lst_children_node_of_current_node)
                 {
                     this.mLoopKiller.PushToOpenStack(sn);
@@ -305,6 +305,8 @@ namespace _16ColorsPuzzle.Data
 
         private void ResetTree()
         {
+            State root_state = this.mRootNode.InnerState;
+            this.mRootNode = StateNode.CreateNewRootNode(root_state, new LoopKiller());
             this.mCurrentVisitingNode = null;
             this.mLoopKiller.Reset();
             StateTree.smVisitedNodesCount = 0;
