@@ -21,7 +21,7 @@ namespace _16ColorsPuzzle.Data
                 SortedSet<StateNode> view_sn = this.mOpenSortedList.GetViewBetween(IN_state_node, IN_state_node);
                 StateNode found_node = view_sn.Min;
                 StateNode to_next_node_in_chain_of_found_node = found_node.mNextNodeWithSameHeuristic;
-
+                //to_next_node_in_chain_of_found_node can be null, but it does not matter
                 found_node.mNextNodeWithSameHeuristic = IN_state_node;
                 IN_state_node.mNextNodeWithSameHeuristic = to_next_node_in_chain_of_found_node;
 
@@ -44,9 +44,10 @@ namespace _16ColorsPuzzle.Data
             StateNode min_sn = this.mOpenSortedList.Min;
             if (null != min_sn)
             {
-                if (null != min_sn.mNextNodeWithSameHeuristic)
+                StateNode min_sn_next = min_sn.mNextNodeWithSameHeuristic;
+                if (null != min_sn_next)
                 {
-                    StateNode min_sn_next = min_sn.mNextNodeWithSameHeuristic;
+
                     this.mOpenSortedList.Remove(min_sn);
                     bool add_result = this.mOpenSortedList.Add(min_sn_next);
                     if (false == add_result)
