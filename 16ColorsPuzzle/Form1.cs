@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using _16ColorsPuzzle.Data;
+using System.Diagnostics;
+using System.IO;
+using System.ComponentModel;
+using System.Threading;
 
 namespace _16ColorsPuzzle
 {
@@ -14,8 +19,26 @@ namespace _16ColorsPuzzle
     {
         private Form_Debug fd;
         private Controller mController;
+        private BackgroundWorker worker = new BackgroundWorker();
+
+        private void InitializeWorker()
+        {
+            worker.WorkerReportsProgress = false;
+            worker.WorkerSupportsCancellation = false;
+
+            this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<StateTree> lst_statetrees = e.Argument as List<StateTree>;
+            Thread.Sleep(1000);
+            this.SolveGames(lst_statetrees);
+        }
+
         public Form1()
         {
+            InitializeWorker();
             InitializeComponent();
             this.fd = new Form_Debug();
             fd.Show();
@@ -35,16 +58,14 @@ namespace _16ColorsPuzzle
             ofd.Filter = @"Text files (*.txt)|*.txt|All files (*.*)|*.*";
             ofd.FilterIndex = 1;
 
-            #region debug code
             if (DialogResult.OK == ofd.ShowDialog())
             {
-                fd.debug_text.AppendText(ofd.FileName + "\r\n");
+                string filename = ofd.FileName;
+                this.fd.AppendLine(filename);
+                this.mController = new Controller(Tuple.Create<int, int>(3, 5));    //the board is set 3 by 5
+                this.mController.ReadConfiguration(filename);
+                this.panel1.Refresh();
             }
-            #endregion
-
-            this.mController = new Controller(Tuple.Create<int, int>(3, 5));    //the board is set 3 by 5
-            this.mController.ReadConfiguration(ofd.FileName);
-            this.panel1.Refresh();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -99,6 +120,67 @@ namespace _16ColorsPuzzle
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Reset();
+        }
+
+        private void autoSolveGamesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = @"Please select a configuration text file";
+            ofd.Filter = @"Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            ofd.FilterIndex = 1;
+
+            if (DialogResult.OK == ofd.ShowDialog())
+            {
+                string filename = ofd.FileName;
+                fd.AppendLine(filename);
+                List<StateTree> lst_statetrees = this.GenerateStateTreesFromFile(filename);
+                this.worker.RunWorkerAsync(lst_statetrees);
+                //this.SolveGames(lst_statetrees);
+            }
+        }
+
+        private List<StateTree> GenerateStateTreesFromFile(string filename)
+        {
+            List<State> lst_states = StateReader.ReadStatesFromFile(filename);
+            List<StateTree> lst_statetrees = new List<StateTree>();
+            foreach (State s in lst_states)
+            {
+                lst_statetrees.Add(new StateTree(s));
+            }
+            return lst_statetrees;
+        }
+
+        private void SolveGames(List<StateTree> lst_statetrees)
+        {
+            StringBuilder sb = new StringBuilder();
+            int total_number_of_moves = 0;
+            long total_time = 0;
+            this.fd.AppendLine("Start solving games...");
+            int i_num_of_games = 1;
+            foreach (StateTree st in lst_statetrees)
+            {
+                fd.AppendLine(String.Format("Solving games No.{0}...", i_num_of_games));
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                st.IDDFSTraverse();
+                string str_result = st.GetSoFarTrace();
+                watch.Stop();
+                string time_text = watch.ElapsedMilliseconds.ToString();
+                total_number_of_moves += (str_result.Length - 1);
+                total_time += watch.ElapsedMilliseconds;
+                sb.AppendLine(str_result);
+                sb.AppendLine(time_text + "ms");
+                fd.AppendLine(String.Format("Finishing solving games No.{0}: {1}ms...", i_num_of_games, time_text));
+                i_num_of_games++;
+            }
+            this.fd.AppendLine(String.Format("All games are solved, using {0}ms", total_time));
+            this.fd.AppendLine(String.Format("Writing Result.txt"));
+            this.fd.AppendLine(total_number_of_moves.ToString() + "moves");
+            this.fd.AppendLine(total_time + "ms");
+            TextWriter writer = new StreamWriter("Result.txt");
+            writer.Write(sb.ToString());
+            writer.Close();
+            this.fd.AppendLine(String.Format("Done!"));
         }
     }
 }

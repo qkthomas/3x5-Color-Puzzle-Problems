@@ -31,8 +31,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.autoSolveGamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openConfigurationToolStripMenuItem,
+            this.autoSolveGamesToolStripMenuItem,
             this.resetToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 21);
@@ -62,6 +64,13 @@
             this.openConfigurationToolStripMenuItem.Text = "Open Configuration";
             this.openConfigurationToolStripMenuItem.Click += new System.EventHandler(this.openConfigurationToolStripMenuItem_Click);
             // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.Location = new System.Drawing.Point(1, 28);
@@ -69,12 +78,12 @@
             this.panel1.Size = new System.Drawing.Size(681, 397);
             this.panel1.TabIndex = 1;
             // 
-            // resetToolStripMenuItem
+            // autoSolveGamesToolStripMenuItem
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            this.autoSolveGamesToolStripMenuItem.Name = "autoSolveGamesToolStripMenuItem";
+            this.autoSolveGamesToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.autoSolveGamesToolStripMenuItem.Text = "Auto Solve Games";
+            this.autoSolveGamesToolStripMenuItem.Click += new System.EventHandler(this.autoSolveGamesToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -103,6 +112,7 @@
         private System.Windows.Forms.ToolStripMenuItem openConfigurationToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoSolveGamesToolStripMenuItem;
     }
 }
 

@@ -12,11 +12,16 @@ namespace _16ColorsPuzzle
 {
     public partial class Form_Debug : Form
     {
-        public System.Windows.Forms.TextBox debug_text;
+        private System.Windows.Forms.TextBox debug_text;
         public Form_Debug()
         {
             InitializeComponent();
             debug_text = this.textBox1;
+        }
+
+        public void AppendLine(string str_text)
+        {
+            this.debug_text.AppendText(str_text + System.Environment.NewLine);
         }
     }
 }
