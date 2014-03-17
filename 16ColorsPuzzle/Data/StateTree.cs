@@ -321,14 +321,15 @@ namespace _16ColorsPuzzle.Data
 
         public string GetSoFarTrace()
         {
-            StringBuilder sb = new StringBuilder();
-            StateNode cursor = this.mCurrentVisitingNode;
-            while (cursor != null)
-            {
-                sb.Insert(0, cursor.InnerState.DestinationOfPreviousMove);
-                cursor = cursor.Parent;
-            }
-            return sb.ToString();
+            //StringBuilder sb = new StringBuilder();
+            //StateNode cursor = this.mCurrentVisitingNode;
+            //while (cursor != null)
+            //{
+            //    sb.Insert(0, cursor.InnerState.DestinationOfPreviousMove);
+            //    cursor = cursor.Parent;
+            //}
+            //return sb.ToString();
+            return this.mCurrentVisitingNode.SoFarTrace;
         }
     }
 }

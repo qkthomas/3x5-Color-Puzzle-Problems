@@ -120,18 +120,25 @@ namespace _16ColorsPuzzle.Data
 
         #region Fields
         private State mCurrentState = null;
-        private StateNode mParent = null;
+        //private StateNode mParent = null;                               //keep parent is unnecessary
         //private List<StateNode> mChildren = new List<StateNode>();    //no need for children field, because all unvisited nodes are store in openlist
         private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
         private int mLevel = int.MinValue;
         public StateNode mNextNodeWithSameHeuristic = null;
+        private string mSoFarTrace;
         #endregion
 
         #region Properties
-        public StateNode Parent
+        //public StateNode Parent
+        //{
+        //    get { return this.mParent; }
+        //}
+
+        public string SoFarTrace
         {
-            get { return this.mParent; }
+            get { return this.mSoFarTrace; }
         }
+
         public State InnerState
         {
             get { return this.mCurrentState; }
@@ -153,14 +160,16 @@ namespace _16ColorsPuzzle.Data
         private StateNode(State state, StateNode parent, LoopKiller loopkiller)
         {
             this.mCurrentState = state;
-            this.mParent = parent;
-            if (null == this.mParent)
+            //this.mParent = parent;
+            if (null == parent)
             {
                 this.mLevel = 0;
+                this.mSoFarTrace = state.DestinationOfPreviousMove.ToString();
             }
             else
             {
-                this.mLevel = this.mParent.mLevel + 1;
+                this.mLevel = parent.mLevel + 1;
+                this.mSoFarTrace = parent.SoFarTrace + state.DestinationOfPreviousMove.ToString();
             }
             this.mLoopKiller = loopkiller;
         }
