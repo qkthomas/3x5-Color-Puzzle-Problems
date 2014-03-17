@@ -123,7 +123,8 @@ namespace _16ColorsPuzzle.Data
         private StateNode mParent = null;
         private List<StateNode> mChildren = new List<StateNode>();
         private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
-        private int mLevel = int.MinValue; 
+        private int mLevel = int.MinValue;
+        public StateNode mNextNodeWithSameHeuristic = null;
         #endregion
 
         #region Properties

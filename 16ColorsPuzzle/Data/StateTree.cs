@@ -26,7 +26,7 @@ namespace _16ColorsPuzzle.Data
         #region Heuristic search
         public void HeuristicTraverse()
         {
-            this.mLoopKiller.PushToOpenStack(this.mRootNode);
+            this.mLoopKiller.AddedToSortedOpenList(this.mRootNode);
             int max_search_level = 1;
             while (true)
             {
@@ -41,7 +41,7 @@ namespace _16ColorsPuzzle.Data
                 }
                 else// (VisitResult.VisitedNodeExceededMaxLevel == result)
                 {
-                    this.ResetSearch();
+                    this.ResetHeuristicSearch();
                     max_search_level++;
                     continue;
                 }
@@ -50,7 +50,7 @@ namespace _16ColorsPuzzle.Data
 
         private VisitResult HIIDFSVisitNextNode(int until_level)
         {
-            this.mCurrentVisitingNode = this.mLoopKiller.PollSmallestFromOpenList();    //poll the smaller one
+            this.mCurrentVisitingNode = this.mLoopKiller.PollMinFromSortedOpenList();    //poll the smaller one
 
             if (null == this.mCurrentVisitingNode)
             {
@@ -85,7 +85,7 @@ namespace _16ColorsPuzzle.Data
                         List<StateNode> lst_children_node_of_current_node = this.mCurrentVisitingNode.Children;
                         foreach (StateNode sn in lst_children_node_of_current_node)
                         {
-                            this.mLoopKiller.PushToOpenStack(sn);       //it doesn't matter whether it is used as stack or queue.
+                            this.mLoopKiller.AddedToSortedOpenList(sn);         //it doesn't matter whether it is used as stack or queue.
                         }
                     }
                     return VisitResult.VisitedNodeNotAGoal;
@@ -290,6 +290,12 @@ namespace _16ColorsPuzzle.Data
             }
         }
         #endregion
+
+        private void ResetHeuristicSearch()
+        {
+            this.ResetTree();
+            this.mLoopKiller.AddedToSortedOpenList(this.mRootNode);
+        }
 
         private void ResetSearch()
         {
