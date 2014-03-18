@@ -140,7 +140,10 @@ namespace _16ColorsPuzzle
                 string filename = ofd.FileName;
                 fd.AppendLine(filename);
                 List<StateTree> lst_statetrees = this.GenerateStateTreesFromFile(filename);
-                this.worker.RunWorkerAsync(lst_statetrees);
+                if (false == this.worker.IsBusy)
+                {
+                    this.worker.RunWorkerAsync(lst_statetrees); 
+                }
                 //this.SolveGames(lst_statetrees);
             }
         }
