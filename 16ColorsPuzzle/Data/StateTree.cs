@@ -321,7 +321,7 @@ namespace _16ColorsPuzzle.Data
             return result;
         }
 
-        public string GetSoFarTrace()
+        private string GetSoFarTrace()
         {
             //StringBuilder sb = new StringBuilder();
             //StateNode cursor = this.mCurrentVisitingNode;
