@@ -21,6 +21,12 @@ namespace _16ColorsPuzzle
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+
+            //string filename = @"C:\Users\Q.K.Lim.Chan\SkyDrive\学业\Graduate\Courses\COMP 6721 - Introduction to A.I\Project\sample-input1.txt";
+            //List<StateTree> lst_statetrees = Program.GenerateStateTreesFromFile(filename);
+            //StateTree st = lst_statetrees[0];
+            //SolveGame(st);
+
         }
 
         static void SortedSetTest()
@@ -35,6 +41,55 @@ namespace _16ColorsPuzzle
             ssi.Remove(j);
             j = picked_ssi.Min;
             int bp = 0;
+        }
+
+        static private List<StateTree> GenerateStateTreesFromFile(string filename)
+        {
+            List<State> lst_states = StateReader.ReadStatesFromFile(filename);
+            List<StateTree> lst_statetrees = new List<StateTree>();
+            foreach (State s in lst_states)
+            {
+                lst_statetrees.Add(new StateTree(s));
+            }
+            return lst_statetrees;
+        }
+
+        private static void SolveGame(StateTree st)
+        {
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            st.HeuristicTraverse();
+            string str_result = st.PrintResultAndReset();
+            watch.Stop();
+            string time_text = watch.ElapsedMilliseconds.ToString();
+            return;
+        }
+
+        private static void SolveGames(List<StateTree> lst_statetrees)
+        {
+            StringBuilder sb = new StringBuilder();
+            int total_number_of_moves = 0;
+            long total_time = 0;
+            int i_num_of_games = 1;
+            foreach (StateTree st in lst_statetrees)
+            {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
+                st.HeuristicTraverse();
+                string str_result = st.PrintResultAndReset();
+                watch.Stop();
+                string time_text = watch.ElapsedMilliseconds.ToString();
+                total_number_of_moves += (str_result.Length - 1);
+                total_time += watch.ElapsedMilliseconds;
+                sb.AppendLine(str_result);
+                sb.AppendLine(time_text + "ms");
+                i_num_of_games++;
+            }
+            sb.AppendLine(total_number_of_moves.ToString() + "moves");
+            sb.AppendLine(total_time + "ms");
+            TextWriter writer = new StreamWriter("Result.txt");
+            writer.Write(sb.ToString());
+            writer.Close();
         }
     }
 }
