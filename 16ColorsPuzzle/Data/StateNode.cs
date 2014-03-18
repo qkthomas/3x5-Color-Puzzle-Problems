@@ -14,7 +14,7 @@ namespace _16ColorsPuzzle.Data
         {
             int this_comparable_value = this.mCurrentState.HeuristicValue + this.Level;
             int other_comparable_value = other_statenode.mCurrentState.HeuristicValue + other_statenode.Level;
-            if(this_comparable_value > other_comparable_value)
+            if (this_comparable_value > other_comparable_value)
             {
                 return 0x100;
             }
@@ -124,7 +124,8 @@ namespace _16ColorsPuzzle.Data
         //private List<StateNode> mChildren = new List<StateNode>();    //no need for children field, because all unvisited nodes are store in openlist
         private LoopKiller mLoopKiller = null;      //openlist will be useless for this class
         private int mLevel = int.MinValue;
-        public StateNode mNextNodeWithSameHeuristic = null;
+        //public StateNode mNextNodeWithSameHeuristic = null;
+        public LinkedList<StateNode> mTailly = null;
         private string mSoFarTrace;
         #endregion
 
@@ -152,7 +153,7 @@ namespace _16ColorsPuzzle.Data
         public int Level
         {
             get { return this.mLevel; }
-        } 
+        }
         #endregion
 
         #region Object creation, constructors
@@ -178,7 +179,7 @@ namespace _16ColorsPuzzle.Data
         {
             StateNode new_root = new StateNode(root_state, null, loopkiller_of_tree);
             return new_root;
-        } 
+        }
         #endregion
 
         #region methods
@@ -209,7 +210,7 @@ namespace _16ColorsPuzzle.Data
                 }
             }
             return lst_children_nodes;
-        } 
+        }
         #endregion
     }
 }
