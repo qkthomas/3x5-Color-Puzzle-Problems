@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using _16ColorsPuzzle.Data;
 using System.Diagnostics;
 using System.IO;
-using System.ComponentModel;
 using System.Threading;
 
 namespace _16ColorsPuzzle
@@ -23,17 +22,24 @@ namespace _16ColorsPuzzle
 
         private void InitializeWorker()
         {
-            worker.WorkerReportsProgress = false;
+            worker.WorkerReportsProgress = true;
             worker.WorkerSupportsCancellation = false;
 
             this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             List<StateTree> lst_statetrees = e.Argument as List<StateTree>;
             Thread.Sleep(1000);
-            this.SolveGames(lst_statetrees);
+            this.SolveGames(sender, lst_statetrees);
+        }
+
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            string text = e.UserState as string;
+            this.fd.AppendLine(text);
         }
 
         public Form1()
@@ -150,37 +156,44 @@ namespace _16ColorsPuzzle
             return lst_statetrees;
         }
 
-        private void SolveGames(List<StateTree> lst_statetrees)
+        private void SolveGames(object sender, List<StateTree> lst_statetrees)
         {
+            BackgroundWorker the_worker = sender as BackgroundWorker;
             StringBuilder sb = new StringBuilder();
             int total_number_of_moves = 0;
             long total_time = 0;
-            this.fd.AppendLine("Start solving games...");
+            //this.fd.AppendLine("Start solving games...");
+            the_worker.ReportProgress(0, "Start solving games...");
             int i_num_of_games = 1;
             foreach (StateTree st in lst_statetrees)
             {
-                fd.AppendLine(String.Format("Solving games No.{0}...", i_num_of_games));
+                //fd.AppendLine(String.Format("Solving games No.{0}...", i_num_of_games));
+                the_worker.ReportProgress(0, String.Format("Solving games No.{0}...", i_num_of_games));
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
-                st.IDDFSTraverse();
-                string str_result = st.GetSoFarTrace();
+                st.HeuristicTraverse();
+                string str_result = st.PrintResultAndReset();
                 watch.Stop();
                 string time_text = watch.ElapsedMilliseconds.ToString();
                 total_number_of_moves += (str_result.Length - 1);
                 total_time += watch.ElapsedMilliseconds;
                 sb.AppendLine(str_result);
                 sb.AppendLine(time_text + "ms");
-                fd.AppendLine(String.Format("Finishing solving games No.{0}: {1}ms...", i_num_of_games, time_text));
+                //fd.AppendLine(String.Format("Finishing solving games No.{0}: {1}ms...", i_num_of_games, time_text));
+                the_worker.ReportProgress(0, String.Format("Finishing solving games No.{0}: {1}ms...", i_num_of_games, time_text));
                 i_num_of_games++;
             }
-            this.fd.AppendLine(String.Format("All games are solved, using {0}ms", total_time));
-            this.fd.AppendLine(String.Format("Writing Result.txt"));
-            this.fd.AppendLine(total_number_of_moves.ToString() + "moves");
-            this.fd.AppendLine(total_time + "ms");
+            //this.fd.AppendLine(String.Format("All games are solved, using {0}ms", total_time));
+            the_worker.ReportProgress(0, String.Format("All games are solved, using {0}ms", total_time));
+            //this.fd.AppendLine(String.Format("Writing Result.txt"));
+            the_worker.ReportProgress(0, String.Format("Writing Result.txt"));
+            sb.AppendLine(total_number_of_moves.ToString() + "moves");
+            sb.AppendLine(total_time + "ms");
             TextWriter writer = new StreamWriter("Result.txt");
             writer.Write(sb.ToString());
             writer.Close();
-            this.fd.AppendLine(String.Format("Done!"));
+            //this.fd.AppendLine(String.Format("Done!"));
+            the_worker.ReportProgress(0, String.Format("Done!"));
         }
     }
 }
