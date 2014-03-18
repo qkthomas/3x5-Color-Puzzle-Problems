@@ -9,10 +9,10 @@ namespace _16ColorsPuzzle.Data
     class StateTree
     {
         #region MyRegion
-        public static int smVisitedNodesCount = 0; 
+        public static int smVisitedNodesCount = 0;
         #endregion
 
-        public enum VisitResult { VisitedNodeGoal, VisitedNodeNotAGoal, VisitedNodeExceededMaxLevel}
+        public enum VisitResult { VisitedNodeGoal, VisitedNodeNotAGoal, VisitedNodeExceededMaxLevel }
         private StateNode mRootNode;
         private StateNode mCurrentVisitingNode = null;
         private LoopKiller mLoopKiller;         //but closelist will be useless for this class.
@@ -27,7 +27,7 @@ namespace _16ColorsPuzzle.Data
         public void HeuristicTraverse()
         {
             this.mLoopKiller.AddedToSortedOpenList(this.mRootNode);
-            int max_search_level = 1;
+            int max_search_level = int.MaxValue;
             while (true)
             {
                 VisitResult result = this.HIIDFSVisitNextNode(max_search_level);
@@ -38,6 +38,7 @@ namespace _16ColorsPuzzle.Data
                 else if (VisitResult.VisitedNodeNotAGoal == result)
                 {
                     //ignore
+                    continue;
                 }
                 else// (VisitResult.VisitedNodeExceededMaxLevel == result)
                 {
@@ -99,14 +100,14 @@ namespace _16ColorsPuzzle.Data
         {
             this.mLoopKiller.PushToOpenStack(this.mRootNode);
             int max_search_level = 1;
-            while(true)
+            while (true)
             {
                 VisitResult result = this.IIDFSVisitNextNode(max_search_level);
-                if(VisitResult.VisitedNodeGoal == result)
+                if (VisitResult.VisitedNodeGoal == result)
                 {
                     break;
                 }
-                else if(VisitResult.VisitedNodeNotAGoal == result)
+                else if (VisitResult.VisitedNodeNotAGoal == result)
                 {
                     //ignore
                     continue;
@@ -306,12 +307,13 @@ namespace _16ColorsPuzzle.Data
         private void ResetTree()
         {
             State root_state = this.mRootNode.InnerState;
+            this.mRootNode = null;
             this.mRootNode = StateNode.CreateNewRootNode(root_state, new LoopKiller());
             this.mCurrentVisitingNode = null;
             this.mLoopKiller.Reset();
             StateTree.smVisitedNodesCount = 0;
         }
-        
+
         public string PrintResultAndReset()
         {
             string result = this.GetSoFarTrace();
