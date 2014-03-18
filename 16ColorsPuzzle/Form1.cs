@@ -142,7 +142,11 @@ namespace _16ColorsPuzzle
                 List<StateTree> lst_statetrees = this.GenerateStateTreesFromFile(filename);
                 if (false == this.worker.IsBusy)
                 {
-                    this.worker.RunWorkerAsync(lst_statetrees); 
+                    this.worker.RunWorkerAsync(lst_statetrees);
+                }
+                else
+                {
+                    MessageBox.Show("The program is busy solving games.");
                 }
                 //this.SolveGames(lst_statetrees);
             }
