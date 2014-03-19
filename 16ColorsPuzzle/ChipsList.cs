@@ -17,6 +17,13 @@ namespace _16ColorsPuzzle
             return this.mChipsList.GetEnumerator();
         }
 
+        public ChipsList GetRange(int index, int count)
+        {
+            ChipsList cplst_to_be_returned = new ChipsList();
+            cplst_to_be_returned.mChipsList = this.mChipsList.GetRange(index, count);
+            return cplst_to_be_returned;
+        }
+
         public void Clear()
         {
             this.mChipsList.Clear();
