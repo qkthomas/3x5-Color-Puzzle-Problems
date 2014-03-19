@@ -23,23 +23,47 @@ namespace _16ColorsPuzzle
         private void InitializeWorker()
         {
             worker.WorkerReportsProgress = true;
-            worker.WorkerSupportsCancellation = false;
+            worker.WorkerSupportsCancellation = true;
 
             this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
             this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+            this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_WorkCompleted);
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<StateTree> lst_statetrees = e.Argument as List<StateTree>;
-            Thread.Sleep(1000);
-            this.SolveGames(sender, lst_statetrees);
+            if (this.worker.CancellationPending)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                List<StateTree> lst_statetrees = e.Argument as List<StateTree>;
+                Thread.Sleep(1000);
+                this.SolveGames(sender, lst_statetrees);
+            }
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             string text = e.UserState as string;
             this.fd.AppendLine(text);
+        }
+
+        private void worker_WorkCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if(e.Error != null)
+            {
+                this.fd.AppendLine(e.Error.Message);
+            }
+            else if(true == e.Cancelled)
+            {
+                this.fd.AppendLine("Task canceled");
+            }
+            else
+            {
+                this.fd.AppendLine("Task finished");
+            }
         }
 
         public Form1()
@@ -130,26 +154,6 @@ namespace _16ColorsPuzzle
 
         private void autoSolveGamesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = @"Please select a configuration text file";
-            ofd.Filter = @"Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            ofd.FilterIndex = 1;
-
-            if (DialogResult.OK == ofd.ShowDialog())
-            {
-                string filename = ofd.FileName;
-                fd.AppendLine(filename);
-                List<StateTree> lst_statetrees = this.GenerateStateTreesFromFile(filename);
-                if (false == this.worker.IsBusy)
-                {
-                    this.worker.RunWorkerAsync(lst_statetrees);
-                }
-                else
-                {
-                    MessageBox.Show("The program is busy solving games.");
-                }
-                //this.SolveGames(lst_statetrees);
-            }
         }
 
         private List<StateTree> GenerateStateTreesFromFile(string filename)
@@ -201,6 +205,44 @@ namespace _16ColorsPuzzle
             writer.Close();
             //this.fd.AppendLine(String.Format("Done!"));
             the_worker.ReportProgress(0, String.Format("Done!"));
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = @"Please select a configuration text file";
+            ofd.Filter = @"Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            ofd.FilterIndex = 1;
+
+            if (DialogResult.OK == ofd.ShowDialog())
+            {
+                string filename = ofd.FileName;
+                fd.AppendLine(filename);
+                List<StateTree> lst_statetrees = this.GenerateStateTreesFromFile(filename);
+                if (false == this.worker.IsBusy)
+                {
+                    this.worker.RunWorkerAsync(lst_statetrees);
+                }
+                else
+                {
+                    fd.AppendLine("The worker is too busy to accept new input.");
+                    MessageBox.Show("The program is busy solving games.");
+                }
+                //this.SolveGames(lst_statetrees);
+            }
+        }
+
+        private void cancelCurrentTaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (true == this.worker.IsBusy)
+            {
+                this.fd.AppendLine("Cancel Task");
+                this.worker.CancelAsync();
+            }
+            else
+            {
+                this.fd.AppendLine("The worker is not doing anything.");
+            }
         }
     }
 }

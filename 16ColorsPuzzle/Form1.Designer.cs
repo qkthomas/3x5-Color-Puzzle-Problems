@@ -31,9 +31,11 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoSolveGamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.autoSolveGamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cancelCurrentTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,9 +62,19 @@
             // openConfigurationToolStripMenuItem
             // 
             this.openConfigurationToolStripMenuItem.Name = "openConfigurationToolStripMenuItem";
-            this.openConfigurationToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.openConfigurationToolStripMenuItem.Text = "Open Configuration";
+            this.openConfigurationToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
+            this.openConfigurationToolStripMenuItem.Text = "Manual Play";
             this.openConfigurationToolStripMenuItem.Click += new System.EventHandler(this.openConfigurationToolStripMenuItem_Click);
+            // 
+            // autoSolveGamesToolStripMenuItem
+            // 
+            this.autoSolveGamesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startToolStripMenuItem,
+            this.cancelCurrentTaskToolStripMenuItem});
+            this.autoSolveGamesToolStripMenuItem.Name = "autoSolveGamesToolStripMenuItem";
+            this.autoSolveGamesToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.autoSolveGamesToolStripMenuItem.Text = "Auto Solve Games";
+            this.autoSolveGamesToolStripMenuItem.Click += new System.EventHandler(this.autoSolveGamesToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
@@ -78,12 +90,19 @@
             this.panel1.Size = new System.Drawing.Size(681, 397);
             this.panel1.TabIndex = 1;
             // 
-            // autoSolveGamesToolStripMenuItem
+            // startToolStripMenuItem
             // 
-            this.autoSolveGamesToolStripMenuItem.Name = "autoSolveGamesToolStripMenuItem";
-            this.autoSolveGamesToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.autoSolveGamesToolStripMenuItem.Text = "Auto Solve Games";
-            this.autoSolveGamesToolStripMenuItem.Click += new System.EventHandler(this.autoSolveGamesToolStripMenuItem_Click);
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.startToolStripMenuItem.Text = "Pick a file and start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
+            // 
+            // cancelCurrentTaskToolStripMenuItem
+            // 
+            this.cancelCurrentTaskToolStripMenuItem.Name = "cancelCurrentTaskToolStripMenuItem";
+            this.cancelCurrentTaskToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.cancelCurrentTaskToolStripMenuItem.Text = "Cancel Current Task";
+            this.cancelCurrentTaskToolStripMenuItem.Click += new System.EventHandler(this.cancelCurrentTaskToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -113,6 +132,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoSolveGamesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cancelCurrentTaskToolStripMenuItem;
     }
 }
 
