@@ -186,7 +186,7 @@ namespace _16ColorsPuzzle
                 string str_result = st.PrintResultAndReset();
                 watch.Stop();
                 string time_text = watch.ElapsedMilliseconds.ToString();
-                total_number_of_moves += (str_result.Length - 1);
+                total_number_of_moves += str_result.Length;
                 total_time += watch.ElapsedMilliseconds;
                 sb.AppendLine(str_result);
                 sb.AppendLine(time_text + "ms");
