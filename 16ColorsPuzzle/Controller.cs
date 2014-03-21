@@ -167,6 +167,11 @@ namespace _16ColorsPuzzle
 
         public void DrawConfiguration(Graphics g, Size s)
         {
+            int char_base = (int)'A';
+            System.Drawing.Font drawFont = new System.Drawing.Font("Arial", 48);
+            System.Drawing.SolidBrush drawBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            System.Drawing.StringFormat drawFormat = new System.Drawing.StringFormat();
+
             for (int i = 0; i < this.mChipsList.Count; i++ )
             {
                 int position = i;   //positio = index.
@@ -185,6 +190,9 @@ namespace _16ColorsPuzzle
                     g.DrawLine(pen, new Point(rtg.X, rtg.Y), new Point(rtg.X + rtg.Width, rtg.Y + rtg.Height));
                     g.DrawLine(pen, new Point(rtg.X + rtg.Width, rtg.Y), new Point(rtg.X, rtg.Y + rtg.Height));
                 }
+
+                string str_to_draw = ((char)(char_base + i)).ToString();
+                g.DrawString(str_to_draw, drawFont, drawBrush, rtg);
             }
         }
 
