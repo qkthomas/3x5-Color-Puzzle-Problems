@@ -165,7 +165,7 @@ namespace _16ColorsPuzzle.Data
             if (null == parent)
             {
                 this.mLevel = 0;
-                this.mSoFarTrace = state.DestinationOfPreviousMove.ToString();
+                this.mSoFarTrace = "";
             }
             else
             {
