@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using _16ColorsPuzzle.Moving;
+using _16ColorsPuzzle.Heuristic;
 using System.Drawing;
 
 namespace _16ColorsPuzzle.Data
@@ -163,19 +164,8 @@ namespace _16ColorsPuzzle.Data
         #region methods: evaluation and goal checking
         private void StateEvaluation()  //the smaller the better
         {
-            int number_of_asymmetry_pairs = 0;
-
-            int number_of_row = State.smRowColumnConfig.Item1;
-            int number_of_column = State.smRowColumnConfig.Item2;
-            int offset_first_row_last_row = (number_of_row - 1) * number_of_column;
-            for (int i = 0; i < number_of_column; i++)
-            {
-                if (this.mChipsList[i] != this.mChipsList[i + offset_first_row_last_row])
-                {
-                    number_of_asymmetry_pairs++;
-                }
-            }
-            this.mHeuristicValue = number_of_asymmetry_pairs;
+            //this.mHeuristicValue = HFunctions.MidRowManhattan(this);
+            this.mHeuristicValue = HFunctions.MissPlacedChips(this);
         }
 
         private void ReachGoal()
