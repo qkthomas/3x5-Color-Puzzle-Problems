@@ -164,8 +164,8 @@ namespace _16ColorsPuzzle.Data
         #region methods: evaluation and goal checking
         private void StateEvaluation()  //the smaller the better
         {
-            //this.mHeuristicValue = HFunctions.MidRowManhattan(this);
-            this.mHeuristicValue = HFunctions.MissPlacedChips(this);
+            this.mHeuristicValue = HFunctions.MidRowManhattan(this);
+            //this.mHeuristicValue = HFunctions.MissPlacedChips(this);
         }
 
         private void ReachGoal()
