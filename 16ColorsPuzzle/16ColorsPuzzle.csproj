@@ -80,6 +80,7 @@
       <DependentUpon>Form_Debug.cs</DependentUpon>
     </Compile>
     <Compile Include="Heuristic\HFunctions.cs" />
+    <Compile Include="Heuristic\StateTreeSolver.cs" />
     <Compile Include="Moving\DownMover.cs" />
     <Compile Include="Moving\LeftMover.cs" />
     <Compile Include="Moving\IMover.cs" />
