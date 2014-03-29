@@ -221,6 +221,7 @@ namespace _16ColorsPuzzle
             writer.Close();
             //this.fd.AppendLine(String.Format("Done!"));
             the_worker.ReportProgress(0, String.Format("Done!"));
+            GC.Collect();
         }
 
         private void SolveGames(object sender, List<StateTree> lst_statetrees)
