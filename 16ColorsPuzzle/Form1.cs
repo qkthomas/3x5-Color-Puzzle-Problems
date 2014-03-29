@@ -11,6 +11,7 @@ using _16ColorsPuzzle.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using _16ColorsPuzzle.Heuristic;
 
 namespace _16ColorsPuzzle
 {
@@ -40,7 +41,8 @@ namespace _16ColorsPuzzle
             {
                 List<StateTree> lst_statetrees = e.Argument as List<StateTree>;
                 Thread.Sleep(1000);
-                this.SolveGames(sender, lst_statetrees);
+                //this.SolveGames(sender, lst_statetrees);
+                this.SolveGamesML(sender, lst_statetrees);
             }
         }
 
@@ -165,6 +167,60 @@ namespace _16ColorsPuzzle
                 lst_statetrees.Add(new StateTree(s));
             }
             return lst_statetrees;
+        }
+
+        private void SolveGamesML(object sender, List<StateTree> lst_statetrees)
+        {
+            BackgroundWorker the_worker = sender as BackgroundWorker;
+            StringBuilder sb = new StringBuilder();
+            int total_number_of_moves = 0;
+            long total_time = 0;
+            the_worker.ReportProgress(0, "Start solving games...");
+            int i_num_of_games = 1;
+            ManualResetEvent[] doneEvents = new ManualResetEvent[lst_statetrees.Count];
+            StateTreeSolver[] stsArray = new StateTreeSolver[lst_statetrees.Count];
+            int index = 0;
+
+            Stopwatch global_watch = new Stopwatch();
+            global_watch.Start();
+
+            foreach (StateTree st in lst_statetrees)
+            {
+                #region multi-thread mode
+                doneEvents[index] = new ManualResetEvent(false);
+                StateTreeSolver sts = new StateTreeSolver(st, doneEvents[index], this.worker, i_num_of_games);
+                stsArray[index] = sts;
+                ThreadPool.QueueUserWorkItem(sts.ThreadPoolCallback, index);
+
+                index++;
+                i_num_of_games++;
+                #endregion
+            }
+
+            #region multi-thread mode.
+            WaitHandle.WaitAll(doneEvents);
+            global_watch.Stop();
+
+            foreach (StateTreeSolver sts in stsArray)
+            {
+                sb.AppendLine(sts.Result);
+                sb.AppendLine(sts.TimeCost.ToString() + "ms");
+                total_number_of_moves += sts.Result.Length;
+            }
+            total_time = global_watch.ElapsedMilliseconds;
+            #endregion
+
+            //this.fd.AppendLine(String.Format("All games are solved, using {0}ms", total_time));
+            the_worker.ReportProgress(0, String.Format("All games are solved, using {0}ms", total_time));
+            //this.fd.AppendLine(String.Format("Writing Result.txt"));
+            the_worker.ReportProgress(0, String.Format("Writing Result.txt"));
+            sb.AppendLine(total_number_of_moves.ToString() + "moves");
+            sb.AppendLine(total_time + "ms");
+            TextWriter writer = new StreamWriter("Result.txt");
+            writer.Write(sb.ToString());
+            writer.Close();
+            //this.fd.AppendLine(String.Format("Done!"));
+            the_worker.ReportProgress(0, String.Format("Done!"));
         }
 
         private void SolveGames(object sender, List<StateTree> lst_statetrees)
