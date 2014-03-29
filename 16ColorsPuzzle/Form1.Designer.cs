@@ -32,10 +32,10 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSolveGamesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cancelCurrentTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,14 +72,28 @@
             this.startToolStripMenuItem,
             this.cancelCurrentTaskToolStripMenuItem});
             this.autoSolveGamesToolStripMenuItem.Name = "autoSolveGamesToolStripMenuItem";
-            this.autoSolveGamesToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.autoSolveGamesToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.autoSolveGamesToolStripMenuItem.Text = "Auto Solve Games";
             this.autoSolveGamesToolStripMenuItem.Click += new System.EventHandler(this.autoSolveGamesToolStripMenuItem_Click);
+            // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.startToolStripMenuItem.Text = "Pick a file and start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
+            // 
+            // cancelCurrentTaskToolStripMenuItem
+            // 
+            this.cancelCurrentTaskToolStripMenuItem.Name = "cancelCurrentTaskToolStripMenuItem";
+            this.cancelCurrentTaskToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            this.cancelCurrentTaskToolStripMenuItem.Text = "Cancel Current Task(not working)";
+            this.cancelCurrentTaskToolStripMenuItem.Click += new System.EventHandler(this.cancelCurrentTaskToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(182, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 
@@ -89,20 +103,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(681, 397);
             this.panel1.TabIndex = 1;
-            // 
-            // startToolStripMenuItem
-            // 
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.startToolStripMenuItem.Text = "Pick a file and start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
-            // 
-            // cancelCurrentTaskToolStripMenuItem
-            // 
-            this.cancelCurrentTaskToolStripMenuItem.Name = "cancelCurrentTaskToolStripMenuItem";
-            this.cancelCurrentTaskToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
-            this.cancelCurrentTaskToolStripMenuItem.Text = "Cancel Current Task";
-            this.cancelCurrentTaskToolStripMenuItem.Click += new System.EventHandler(this.cancelCurrentTaskToolStripMenuItem_Click);
             // 
             // Form1
             // 
