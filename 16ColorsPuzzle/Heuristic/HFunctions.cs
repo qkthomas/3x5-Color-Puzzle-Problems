@@ -12,7 +12,7 @@ namespace _16ColorsPuzzle.Heuristic
         public static int MidRowManhattan(State s)      //not admissable
         {
             int current_heuristic_value = 0;
-            int number_of_asymmetry_pairs = 0;
+            //int number_of_asymmetry_pairs = 0;
 
             int number_of_row = State.smRowColumnConfig.Item1;
             int number_of_column = State.smRowColumnConfig.Item2;
@@ -30,7 +30,7 @@ namespace _16ColorsPuzzle.Heuristic
 
                 if (s.InnerChipsList[index_chip_top_row] != s.InnerChipsList[index_chip_bottom_row])
                 {
-                    number_of_asymmetry_pairs++;
+                    //number_of_asymmetry_pairs++;
 
                     int smallest_dist_of_bottomOrtop_mid_chips = int.MaxValue;
 
@@ -69,9 +69,9 @@ namespace _16ColorsPuzzle.Heuristic
                     }
                 }
             }
-            int final_heuristic_value = (int)(((double)number_of_asymmetry_pairs / (double)State.smRowColumnConfig.Item2) * (double)current_heuristic_value);
+            //int final_heuristic_value = (int)(((double)number_of_asymmetry_pairs / (double)State.smRowColumnConfig.Item2) * (double)current_heuristic_value);
 
-            return final_heuristic_value;
+            return current_heuristic_value;
         }
 
         public static int MissPlacedChips(State s)
