@@ -214,7 +214,7 @@ namespace _16ColorsPuzzle
             the_worker.ReportProgress(0, String.Format("All games are solved, using {0}ms", total_time));
             //this.fd.AppendLine(String.Format("Writing Result.txt"));
             the_worker.ReportProgress(0, String.Format("Writing Result.txt"));
-            sb.AppendLine(total_number_of_moves.ToString() + "moves");
+            sb.AppendLine(total_number_of_moves.ToString());
             sb.AppendLine(total_time + "ms");
             TextWriter writer = new StreamWriter("Result.txt");
             writer.Write(sb.ToString());
